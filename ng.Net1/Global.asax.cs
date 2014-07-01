@@ -19,7 +19,7 @@ namespace ng.Net1
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            System.Data.Entity.Database.SetInitializer<DBContext>(null); 
+            //System.Data.Entity.Database.SetInitializer<DBContext>(null); 
         }
     }
 }

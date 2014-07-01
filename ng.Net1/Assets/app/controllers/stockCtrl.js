@@ -1,5 +1,37 @@
 ﻿angular.module('stock', ['ui.bootstrap'])
     .controller('stockCtrl', ['$scope', '$http', function ($scope, $http) {
+        $scope.isCash = false;
+        $scope.isDeposit = true;
+        $scope.isWithdraw = true;
+        $scope.deposit = function() {
+            $scope.isWithdraw = false;
+            $scope.isCash = true;
+            $scope.cashType = 0;
+        };
+        $scope.withdraw = function () {
+            $scope.isDeposit = false;
+            $scope.isCash = true;
+            $scope.cashType = 1;
+        };
+        $scope.cancel = function () {
+            $scope.isDeposit = true;
+            $scope.isWithdraw = true;
+            $scope.isCash = false;
+        };
+        $scope.postAmt = function(parameters) {
+            var params = { Type: $scope.cashType, Amount: $scope.cash, TranDt: $scope.tranDt };
+
+            $http.post('/api/Values/Post', params)
+                .success(function (data, status, headers, cofig) {
+                    $scope.message = data.Message;
+                    $scope.showAlert = true;
+                    location.href = '#/StockDetails';
+                })
+                .error(function (data, status, headers, config) {
+                    $scope.message = data.Message;
+                    $scope.showAlert = true;
+                });
+        }
         $scope.genData = function (key) {
 
             var YAHOO = window.YAHOO = { Finance: { SymbolSuggest: {} } };

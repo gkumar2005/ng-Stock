@@ -6,7 +6,7 @@
                 .success(function (data, status, headers, cofig) {
                     var arrSym = [];
                     angular.forEach(data, function (row) {
-                        row.Type = row.Type = '0' ? 'Buy' : 'Sell';
+                        row.Type = row.Type == '0' ? 'Buy' : 'Sell';
                         arrSym.push(row.Sym);
                     });
                     //$scope.stocks = data;
@@ -21,7 +21,8 @@
             $scope.gridOptions = {
              data: 'stocks',
              showGroupPanel: true,
-             rowHeight: 30
+             rowHeight: 30,
+                enableCellEdit: true
             };
        
         }
@@ -98,4 +99,6 @@
 
         $scope.getList();
     }]);
+
+
 

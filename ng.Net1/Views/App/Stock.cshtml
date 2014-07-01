@@ -5,7 +5,7 @@
         <input required type="text" class="form-control" name="Sym" autocomplete="off" placeholder="Enter Symbol" ng-model="sym" typeahead="state for state in genData($viewValue) | filter : $viewValue |limitTo:8">
     </div>
     <div class="form-group">
-        <label for="type">Type</label>
+        <label for="Type">Type</label>
         <select class="form-control" name="Type" title="Type" ng-model="type">
             <option value="0">Buy</option>
             <option value="1">Sell</option>
@@ -35,4 +35,12 @@
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
 </form>
-
+<div class="form-group">
+    Cash - <a ng-show="isDeposit" ng-click="deposit()">Deposit</a> / <a ng-show="isWithdraw" ng-click="withdraw()">Withdraw</a>
+    <form ng-show="isCash" ng-submit="postAmt()">
+        <input type="text" smart-float ng-model="cash" placeholder="Cash"></input>
+        <input type="date" class="" name="Date" id="Date" placeholder="Date" ng-model="tranDt">
+        <button type="submit" class="btn btn-default">Add</button>
+        <button  class="btn btn-default" ng-click="cancel()">Cancel</button>
+    </form>
+</div>

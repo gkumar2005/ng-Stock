@@ -11,6 +11,19 @@ using System.Web;
 
 namespace ng.Net1.Models
 {
+    public class Cash
+    {
+        [Key]
+        public int ID { get; set; }
+        [Required]
+        public int Type { get; set; }
+        [Required]
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        public DateTime TranDt { get; set; }
+        [Required]
+        [DisplayFormat(DataFormatString = "{0:c}")]
+        public Decimal Amount { get; set; }
+    }
     public  class Trade
     {
         [Key]
@@ -84,6 +97,7 @@ namespace ng.Net1.Models
 
         public DbSet<todoItem> todos { get; set; }
         public DbSet<Trade> trades { get; set; }
+        public DbSet<Cash> cash { get; set; }
 
     }
 
@@ -93,31 +107,31 @@ namespace ng.Net1.Models
         protected override void Seed(DBContext context)
         {
             //The UserManager and RoleManager is great for creating default admin users and putting them into the necessary roles.
-            //var UserManager = new UserManager<User>(new UserStore<User>(context));
-            //var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            var UserManager = new UserManager<User>(new UserStore<User>(context));
+            var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
 
-            //Create Role Test and User Test
-            //List<string> roles = new List<string>() { "Active","Admin" };
-            //foreach (string role in roles)
-            //{
-            //    if (!RoleManager.RoleExists(role))
-            //    {
-            //        var roleresult = RoleManager.Create(new IdentityRole(role));
-            //    }
-            //}
+           // Create Role Test and User Test
+            List<string> roles = new List<string>() { "Active","Admin" };
+            foreach (string role in roles)
+            {
+                if (!RoleManager.RoleExists(role))
+                {
+                    var roleresult = RoleManager.Create(new IdentityRole(role));
+                }
+            }
 
             //Create User=Admin with password=P@ssword123
-            //User user = new User();
-            //user.Email = "someemail@somedomain.com";
-            //user.UserName = "someemail@somedomain.com";
-            //var adminresult = UserManager.Create(user, "P@ssword123");
+            User user = new User();
+            user.Email = "someemail@somedomain.com";
+            user.UserName = "someemail@somedomain.com";
+            var adminresult = UserManager.Create(user, "P@ssword123");
 
-            ////Add User Admin to Role Admin
-            //if (adminresult.Succeeded)
-            //{
-            //    var result = UserManager.AddToRole(user.Id, "Active");
-            //    result = UserManager.AddToRole(user.Id, "Admin");
-            //}
+            //Add User Admin to Role Admin
+            if (adminresult.Succeeded)
+            {
+                var result = UserManager.AddToRole(user.Id, "Active");
+                result = UserManager.AddToRole(user.Id, "Admin");
+            }
         }
     }
 }
