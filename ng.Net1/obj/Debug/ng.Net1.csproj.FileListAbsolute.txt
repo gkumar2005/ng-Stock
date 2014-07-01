@@ -61,3 +61,66 @@ c:\users\praveen\documents\visual studio 2013\Projects\ng.Net1\ng.Net1\bin\Syste
 c:\users\praveen\documents\visual studio 2013\Projects\ng.Net1\ng.Net1\obj\Debug\ng.Net1.csprojResolveAssemblyReference.cache
 c:\users\praveen\documents\visual studio 2013\Projects\ng.Net1\ng.Net1\obj\Debug\ng.Net Template1.dll
 c:\users\praveen\documents\visual studio 2013\Projects\ng.Net1\ng.Net1\obj\Debug\ng.Net Template1.pdb
+C:\MyAngularJS\ng.Net1\bin\ng.Net Template1.dll.config
+C:\MyAngularJS\ng.Net1\bin\ng.Net Template1.dll
+C:\MyAngularJS\ng.Net1\bin\ng.Net Template1.pdb
+C:\MyAngularJS\ng.Net1\bin\Antlr3.Runtime.dll
+C:\MyAngularJS\ng.Net1\bin\EntityFramework.dll
+C:\MyAngularJS\ng.Net1\bin\EntityFramework.SqlServer.dll
+C:\MyAngularJS\ng.Net1\bin\Microsoft.AspNet.Identity.Core.dll
+C:\MyAngularJS\ng.Net1\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\MyAngularJS\ng.Net1\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\MyAngularJS\ng.Net1\bin\Microsoft.Owin.dll
+C:\MyAngularJS\ng.Net1\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\MyAngularJS\ng.Net1\bin\Microsoft.Owin.Security.Cookies.dll
+C:\MyAngularJS\ng.Net1\bin\Microsoft.Owin.Security.dll
+C:\MyAngularJS\ng.Net1\bin\Microsoft.Owin.Security.Facebook.dll
+C:\MyAngularJS\ng.Net1\bin\Microsoft.Owin.Security.Google.dll
+C:\MyAngularJS\ng.Net1\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\MyAngularJS\ng.Net1\bin\Microsoft.Owin.Security.OAuth.dll
+C:\MyAngularJS\ng.Net1\bin\Microsoft.Owin.Security.Twitter.dll
+C:\MyAngularJS\ng.Net1\bin\Microsoft.Web.Infrastructure.dll
+C:\MyAngularJS\ng.Net1\bin\Newtonsoft.Json.dll
+C:\MyAngularJS\ng.Net1\bin\Owin.dll
+C:\MyAngularJS\ng.Net1\bin\System.Net.Http.Formatting.dll
+C:\MyAngularJS\ng.Net1\bin\System.Web.Helpers.dll
+C:\MyAngularJS\ng.Net1\bin\System.Web.Http.dll
+C:\MyAngularJS\ng.Net1\bin\System.Web.Http.Owin.dll
+C:\MyAngularJS\ng.Net1\bin\System.Web.Http.WebHost.dll
+C:\MyAngularJS\ng.Net1\bin\System.Web.Mvc.dll
+C:\MyAngularJS\ng.Net1\bin\System.Web.Optimization.dll
+C:\MyAngularJS\ng.Net1\bin\System.Web.Razor.dll
+C:\MyAngularJS\ng.Net1\bin\System.Web.WebPages.Deployment.dll
+C:\MyAngularJS\ng.Net1\bin\System.Web.WebPages.dll
+C:\MyAngularJS\ng.Net1\bin\System.Web.WebPages.Razor.dll
+C:\MyAngularJS\ng.Net1\bin\WebGrease.dll
+C:\MyAngularJS\ng.Net1\bin\Newtonsoft.Json.xml
+C:\MyAngularJS\ng.Net1\bin\System.Net.Http.Formatting.xml
+C:\MyAngularJS\ng.Net1\bin\System.Web.Helpers.xml
+C:\MyAngularJS\ng.Net1\bin\System.Web.Http.xml
+C:\MyAngularJS\ng.Net1\bin\System.Web.Http.WebHost.xml
+C:\MyAngularJS\ng.Net1\bin\System.Web.Mvc.xml
+C:\MyAngularJS\ng.Net1\bin\System.Web.Optimization.xml
+C:\MyAngularJS\ng.Net1\bin\System.Web.Razor.xml
+C:\MyAngularJS\ng.Net1\bin\System.Web.WebPages.xml
+C:\MyAngularJS\ng.Net1\bin\System.Web.WebPages.Deployment.xml
+C:\MyAngularJS\ng.Net1\bin\System.Web.WebPages.Razor.xml
+C:\MyAngularJS\ng.Net1\bin\Antlr3.Runtime.pdb
+C:\MyAngularJS\ng.Net1\bin\EntityFramework.xml
+C:\MyAngularJS\ng.Net1\bin\EntityFramework.SqlServer.xml
+C:\MyAngularJS\ng.Net1\bin\Microsoft.AspNet.Identity.Core.xml
+C:\MyAngularJS\ng.Net1\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\MyAngularJS\ng.Net1\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\MyAngularJS\ng.Net1\bin\Microsoft.Owin.xml
+C:\MyAngularJS\ng.Net1\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\MyAngularJS\ng.Net1\bin\Microsoft.Owin.Security.xml
+C:\MyAngularJS\ng.Net1\bin\Microsoft.Owin.Security.Facebook.xml
+C:\MyAngularJS\ng.Net1\bin\Microsoft.Owin.Security.Cookies.xml
+C:\MyAngularJS\ng.Net1\bin\Microsoft.Owin.Security.OAuth.xml
+C:\MyAngularJS\ng.Net1\bin\Microsoft.Owin.Security.Google.xml
+C:\MyAngularJS\ng.Net1\bin\Microsoft.Owin.Security.Twitter.xml
+C:\MyAngularJS\ng.Net1\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\MyAngularJS\ng.Net1\bin\System.Web.Http.Owin.xml
+C:\MyAngularJS\ng.Net1\obj\Debug\ng.Net1.csprojResolveAssemblyReference.cache
+C:\MyAngularJS\ng.Net1\obj\Debug\ng.Net Template1.dll
+C:\MyAngularJS\ng.Net1\obj\Debug\ng.Net Template1.pdb

@@ -15,7 +15,7 @@ namespace ng.Net1.Models
     {
         [Key]
         public int ID { get; set; }
-        [StringLength(4)] [Required]
+        [StringLength(5)] [Required]
         public string Sym{get;set;}
         [Required]
         public int Type{get;set;}

@@ -1,16 +1,15 @@
 ﻿angular.module('stockDetail', ['ngGrid'])
     .controller('stockDetailCtrl', ['$scope', '$http', '$q', function ($scope, $http, $q) {
-        
+       
         $scope.getList = function () {
-
-         $http.get('/api/Values/Get')
+            $http.get('/api/Values/Get')
                 .success(function (data, status, headers, cofig) {
                     var arrSym = [];
                     angular.forEach(data, function (row) {
                         row.Type = row.Type = '0' ? 'Buy' : 'Sell';
                         arrSym.push(row.Sym);
                     });
-                    $scope.stocks = data;
+                    //$scope.stocks = data;
                     $scope.mktPrice(arrSym, data);
                     $scope.showAlert = true;
                 })
@@ -18,17 +17,18 @@
                     $scope.message = data.Message;
                     $scope.showAlert = true;
                 });
-         $scope.gridOptions = {
+        
+            $scope.gridOptions = {
              data: 'stocks',
              showGroupPanel: true,
-             rowHeight:30
-         };
-         
+             rowHeight: 30
+            };
+       
         }
 
         $scope.mktPrice = function (arrSym, rows) {
             getStock({
-                stocks: arrSym,
+                symbols: arrSym,
                 display: ['symbol', 'LastTradePriceOnly']
             }, function (err, stock) {
                 if (err) {
@@ -37,14 +37,21 @@
                 }
                 angular.forEach(rows, function (row) {
                     if (stock.quote.length > 1)
-                        row.mktPrice = $.grep(stock.quote, function (n, i) {
+                        row.MktPrice = $.grep(stock.quote, function (n, i) {
                             return n.symbol == row.Sym;
-                        }).LastTradePriceOnly;
+                        })[0].LastTradePriceOnly;
                     else
-                        row.mktPrice = stock.quote.LastTradePriceOnly;
+                        row.MktPrice = stock.quote.LastTradePriceOnly;
+                    //Price*Qty
+                    row.MktValue = (row.MktPrice * row.Qty) + row.Cmsn;
+                    row.CostPrice = row.Type == 'Buy' ? (row.Price * row.Qty) + row.Cmsn : (row.Price * row.Qty) - row.Cmsn;
+                    //row.Profit = (row.Price * row.Qty) + row.Cmsn;
                 });
+                $scope.stocks = rows;
                 $scope.$apply();
-            })
+            });
+
+           
         }
 
         function getStock(opts, complete) {
@@ -57,17 +64,17 @@
 
             opts = $.extend({
                 display: ['*'],
-                stocks: []
+                symbols: []
             }, opts || {});
 
-            if (!opts.stocks.length) {
+            if (!opts.symbols.length) {
                 complete('No stock defined');
                 return;
             }
 
             var query = {
                 display: opts.display.join(', '),
-                quotes: opts.stocks.map(function (stock) {
+                quotes: opts.symbols.map(function (stock) {
                     return '"' + stock + '"';
                 }).join(', ')
             };
