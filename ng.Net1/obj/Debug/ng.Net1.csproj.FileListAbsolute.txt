@@ -183,6 +183,6 @@ D:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.Security.Google.xml
 D:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.Security.Twitter.xml
 D:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 D:\Projects\ng-Stock\ng.Net1\bin\System.Web.Http.Owin.xml
-D:\Projects\ng-Stock\ng.Net1\obj\Debug\ng.Net1.csprojResolveAssemblyReference.cache
 D:\Projects\ng-Stock\ng.Net1\obj\Debug\ng.Net Template1.dll
 D:\Projects\ng-Stock\ng.Net1\obj\Debug\ng.Net Template1.pdb
+D:\Projects\ng-Stock\ng.Net1\obj\Debug\ng.Net1.csprojResolveAssemblyReference.cache

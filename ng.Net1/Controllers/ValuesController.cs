@@ -40,6 +40,19 @@ namespace ng.Net1.Controllers
             return Request.CreateResponse(HttpStatusCode.Accepted);
         }
 
+        [HttpPost]
+        public HttpResponseMessage PostAmt(Account c)
+        {
+            if (!ModelState.IsValid)
+            {
+                var err = ModelState.Values.SelectMany(m => m.Errors.Select(e => e.ErrorMessage));
+                return Request.CreateResponse(HttpStatusCode.BadRequest, err);
+            }
+            //var tradeNew = new Account() { Type = cash.Type, Amount = cash.Amount, cash.TranDt = td.Date };
+            db.account.Add(c);
+            db.SaveChanges();
+            return Request.CreateResponse(HttpStatusCode.Accepted);
+        }
         // PUT api/values/5
         public void Put(int id, [FromBody]string value)
         {

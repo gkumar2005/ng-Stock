@@ -21,11 +21,10 @@
         $scope.postAmt = function(parameters) {
             var params = { Type: $scope.cashType, Amount: $scope.cash, TranDt: $scope.tranDt };
 
-            $http.post('/api/Values/Post', params)
+            $http.post('/api/Values/PostAmt', params)
                 .success(function (data, status, headers, cofig) {
                     $scope.message = data.Message;
                     $scope.showAlert = true;
-                    location.href = '#/StockDetails';
                 })
                 .error(function (data, status, headers, config) {
                     $scope.message = data.Message;

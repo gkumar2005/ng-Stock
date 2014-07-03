@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using System.Data.Entity.Migrations;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,10 @@ using System.Web;
 
 namespace ng.Net1.Models
 {
-    public class Cash
+    public class Account
     {
         [Key]
-        public int ID { get; set; }
+        public int Id { get; set; }
         [Required]
         public int Type { get; set; }
         [Required]
@@ -80,6 +81,7 @@ namespace ng.Net1.Models
         //Override default table names
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            Database.SetInitializer(new DBInitializer());
             base.OnModelCreating(modelBuilder);
 
             //When the Model/Database are created, the default user and roles tables will be mapped to different names. EX: IdentityUser -> Users.
@@ -87,7 +89,8 @@ namespace ng.Net1.Models
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<IdentityRole>().ToTable("Roles");
             modelBuilder.Entity<IdentityUserRole>().ToTable("UserRoles");
-            //modelBuilder.Entity<Trade>().ToTable("Trades");
+            modelBuilder.Entity<Trade>().ToTable("Trades");
+            modelBuilder.Entity<Account>().ToTable("Account");
         }
 
         public static DBContext Create()
@@ -97,15 +100,18 @@ namespace ng.Net1.Models
 
         public DbSet<todoItem> todos { get; set; }
         public DbSet<Trade> trades { get; set; }
-        public DbSet<Cash> cash { get; set; }
+        public DbSet<Account> account { get; set; }
 
     }
 
     //This function will ensure the database is created and seeded with any default data.
-    public class DBInitializer : CreateDatabaseIfNotExists<DBContext>
+    public class DBInitializer : DropCreateDatabaseIfModelChanges<DBContext>
     {
         protected override void Seed(DBContext context)
         {
+            context.Set<Account>().AddOrUpdate(new Account() { Type = 0, Amount = 100, TranDt =  DateTime.Now });
+            context.SaveChanges();
+
             //The UserManager and RoleManager is great for creating default admin users and putting them into the necessary roles.
             var UserManager = new UserManager<User>(new UserStore<User>(context));
             var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));

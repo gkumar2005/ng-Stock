@@ -1,9 +1,11 @@
 ﻿body {
 }
 input[type='text'],input[type='date'],input[type='number'],select{ width: 250px; }
+.aggrVal{ margin-left: 6rem;}
 .gridStyle {
 border: 1px solid rgb(212,212,212);
-    height: 300px;
+width: 135rem;
+    height: 900px;
 }
 .site-header {
     /*color: #F2EFDC;*/
