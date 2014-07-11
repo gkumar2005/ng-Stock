@@ -19,11 +19,38 @@ namespace ng.Net1.Controllers
         {
             return db.trades;
         }
-
-        // GET api/values/5
-        public string Get(int id)
+        private static Decimal fn(IGrouping<int,Trade> grp)
         {
-            return "value";
+// ReSharper disable ReturnValueOfPureMethodIsNotUsed
+            Decimal sum = 0;
+            foreach (Trade td in grp)
+            {
+                if (td.Type == 1) sum += (td.Price*td.Qty - td.Cmsn);
+            }
+            return sum;
+// ReSharper restore ReturnValueOfPureMethodIsNotUsed
+        }
+
+//        select Type, case when type=0 then SUM(Price*Qty+Cmsn) else SUM(Price*Qty-Cmsn) end as Cash into #Trade 
+//          from trades group by type 
+//        select type, SUM(amount) as Cash into #Account 
+//          from account group by type
+        // GET api/values/5
+        [HttpGet]
+        public Cash GetCash()
+        {
+            var cash = new Cash();
+            var grTrade = db.trades.GroupBy(t => t.Type);
+            cash.StockPur = grTrade.Where(g => g.Key == 0).Select(grp => grp.Sum(tr => tr.Price*tr.Qty + tr.Cmsn)).FirstOrDefault();
+            Decimal x = 0.0m;
+            foreach (var grp in grTrade.Where(g => g.Key == 1))
+                cash.StockSold = fn(grp);
+           
+            var grAccount = db.account.GroupBy(a => a.Type);
+            cash.Deposited = grAccount.Where(ac => ac.Key == 1).Select(grp => grp.Sum(grpDep => grpDep.Amount)).FirstOrDefault();
+            cash.Withdrawn = grAccount.Where(ac => ac.Key == 0).Select(grp => grp.Select(grpWd => grpWd.Amount).Sum()).FirstOrDefault();
+            cash.InHand = cash.Deposited + cash.StockSold - (cash.StockPur + cash.Withdrawn);
+            return cash;
         }
 
         // POST api/values

@@ -12,6 +12,14 @@ using System.Web;
 
 namespace ng.Net1.Models
 {
+    public class Cash
+    {
+        public Decimal? StockPur { get; set; }
+        public Decimal? StockSold { get; set; }
+        public Decimal? Deposited { get; set; }
+        public Decimal? Withdrawn { get; set; }
+        public Decimal? InHand { get; set; }
+    }
     public class Account
     {
         [Key]
