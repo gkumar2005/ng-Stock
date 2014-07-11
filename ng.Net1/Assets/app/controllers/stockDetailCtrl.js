@@ -30,7 +30,7 @@
                                            "<span class='aggrVal'>Avg: {{ avgPrice(row, 'CostPrice')}}  </span>" +
                                            "<span class='aggrVal'>Cost: {{aggByLevel(row, 'CostPrice')}}  </span>" +
                                            "<span class='aggrVal'>Mkt: {{aggByLevel(row, 'MktValue')}}  </span>" +
-                        "<span class='aggrVal'>Profit: {{profitByQty(row)}}  </span>" +
+                        "<span class='aggrVal'>{{profitByQty(row)}}  </span>" +
                                         "</span>" +
                                     "    <div class=\"{{row.aggClass()}}\"></div>" +
                                     "</div>" + "",
@@ -44,19 +44,36 @@
             return ($scope.aggByLevel(row, col) / $scope.aggByLevel(row, 'Qty')).toFixed(2);
         };
         $scope.profitByQty = function(row) {
-            var profit;
+            var profit ='';
             var children;
             if (row.children.length == 0) {
                 children = row.aggChildren;
                 if (children.length == 2) {
-                    angular.forEach(children[0].children, function(tran0) {
-                        angular.forEach(children[1].children, function(tran1) {
-                            profit = (tran1.entity.Qty == tran0.entity.Qty) ? tran1.entity.CostPrice - tran0.entity.CostPrice : $scope.aggByLevel(row, 'CostPrice');
-                        });
+                    var grpSym = {};
+                    $.each($scope.stocks, function(i, item) {
+                        if (grpSym[item.Sym])
+                            grpSym[item.Sym].push(item);
+                        else {
+                            grpSym[item.Sym] = [item];
+                        }
                     });
+                    var sQty = 0, bQty= 0;
+                    var totSellPrice=0.0, totCostPrice = 0.0;
+                    $.each(grpSym[row.label], function (j, item) {
+                        if (item.Type == 'Sell') {
+                            sQty += item.Qty;
+                            totSellPrice += ((item.Qty * item.Price) + item.Cmsn);
+                        } else {
+                            bQty += item.Qty;
+                            totCostPrice += ((item.Qty * item.Price) + item.Cmsn);
+                        }
+                    });
+                    var avgSPrice = totSellPrice / sQty;
+                    var avgCPrice = totCostPrice / bQty;
+                    profit = (avgSPrice * sQty - avgCPrice * sQty).toFixed(2);
+                    return 'Profit: ' + profit;
                 }
             }
-            return profit;
         };
         $scope.aggByLevel = function(row, col) {
             var total;
