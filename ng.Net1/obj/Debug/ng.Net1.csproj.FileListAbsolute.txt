@@ -186,3 +186,66 @@ D:\Projects\ng-Stock\ng.Net1\bin\System.Web.Http.Owin.xml
 D:\Projects\ng-Stock\ng.Net1\obj\Debug\ng.Net Template1.dll
 D:\Projects\ng-Stock\ng.Net1\obj\Debug\ng.Net Template1.pdb
 D:\Projects\ng-Stock\ng.Net1\obj\Debug\ng.Net1.csprojResolveAssemblyReference.cache
+C:\Projects\ng-Stock\ng.Net1\bin\ng.Net Template1.dll.config
+C:\Projects\ng-Stock\ng.Net1\bin\ng.Net Template1.dll
+C:\Projects\ng-Stock\ng.Net1\bin\ng.Net Template1.pdb
+C:\Projects\ng-Stock\ng.Net1\bin\Antlr3.Runtime.dll
+C:\Projects\ng-Stock\ng.Net1\bin\EntityFramework.dll
+C:\Projects\ng-Stock\ng.Net1\bin\EntityFramework.SqlServer.dll
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.dll
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.Security.dll
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.Security.Facebook.dll
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.Security.Google.dll
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.Security.Twitter.dll
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Web.Infrastructure.dll
+C:\Projects\ng-Stock\ng.Net1\bin\Newtonsoft.Json.dll
+C:\Projects\ng-Stock\ng.Net1\bin\Owin.dll
+C:\Projects\ng-Stock\ng.Net1\bin\System.Net.Http.Formatting.dll
+C:\Projects\ng-Stock\ng.Net1\bin\System.Web.Helpers.dll
+C:\Projects\ng-Stock\ng.Net1\bin\System.Web.Http.dll
+C:\Projects\ng-Stock\ng.Net1\bin\System.Web.Http.Owin.dll
+C:\Projects\ng-Stock\ng.Net1\bin\System.Web.Http.WebHost.dll
+C:\Projects\ng-Stock\ng.Net1\bin\System.Web.Mvc.dll
+C:\Projects\ng-Stock\ng.Net1\bin\System.Web.Optimization.dll
+C:\Projects\ng-Stock\ng.Net1\bin\System.Web.Razor.dll
+C:\Projects\ng-Stock\ng.Net1\bin\System.Web.WebPages.Deployment.dll
+C:\Projects\ng-Stock\ng.Net1\bin\System.Web.WebPages.dll
+C:\Projects\ng-Stock\ng.Net1\bin\System.Web.WebPages.Razor.dll
+C:\Projects\ng-Stock\ng.Net1\bin\WebGrease.dll
+C:\Projects\ng-Stock\ng.Net1\bin\Newtonsoft.Json.xml
+C:\Projects\ng-Stock\ng.Net1\bin\System.Net.Http.Formatting.xml
+C:\Projects\ng-Stock\ng.Net1\bin\System.Web.Helpers.xml
+C:\Projects\ng-Stock\ng.Net1\bin\System.Web.Http.xml
+C:\Projects\ng-Stock\ng.Net1\bin\System.Web.Http.WebHost.xml
+C:\Projects\ng-Stock\ng.Net1\bin\System.Web.Mvc.xml
+C:\Projects\ng-Stock\ng.Net1\bin\System.Web.Optimization.xml
+C:\Projects\ng-Stock\ng.Net1\bin\System.Web.Razor.xml
+C:\Projects\ng-Stock\ng.Net1\bin\System.Web.WebPages.xml
+C:\Projects\ng-Stock\ng.Net1\bin\System.Web.WebPages.Deployment.xml
+C:\Projects\ng-Stock\ng.Net1\bin\System.Web.WebPages.Razor.xml
+C:\Projects\ng-Stock\ng.Net1\bin\Antlr3.Runtime.pdb
+C:\Projects\ng-Stock\ng.Net1\bin\EntityFramework.xml
+C:\Projects\ng-Stock\ng.Net1\bin\EntityFramework.SqlServer.xml
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.xml
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.Security.xml
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.Security.Facebook.xml
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.Security.Google.xml
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.Security.Twitter.xml
+C:\Projects\ng-Stock\ng.Net1\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Projects\ng-Stock\ng.Net1\bin\System.Web.Http.Owin.xml
+C:\Projects\ng-Stock\ng.Net1\obj\Debug\ng.Net1.csprojResolveAssemblyReference.cache
+C:\Projects\ng-Stock\ng.Net1\obj\Debug\ng.Net Template1.dll
+C:\Projects\ng-Stock\ng.Net1\obj\Debug\ng.Net Template1.pdb
