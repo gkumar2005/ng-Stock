@@ -1,16 +1,28 @@
 ﻿angular.module('stockDetail', ['ngGrid'])
     .controller('stockDetailCtrl', ['$scope', '$http', '$q', function ($scope, $http, $q) {
-
+        $scope.amtHand = function() {
+            $http.get('/api/Values/GetCash')
+                .success(function(data, status, headers, cofig) {
+                    $scope.StockPur = data.StockPur;
+                    $scope.StockSold = data.StockSold;
+                    $scope.Deposited = data.Deposited;
+                    $scope.Withdrawn = data.Withdrawn;
+                    $scope.InHand = data.InHand;
+                    $scope.$apply();
+                });
+        };
         $scope.getList = function() {
             $http.get('/api/Values/Get')
                 .success(function(data, status, headers, cofig) {
                     var arrSym = [];
                     angular.forEach(data, function(row) {
                         row.Type = row.Type == '0' ? 'Buy' : 'Sell';
+                        row.Qty = parseInt(row.Qty);
                         arrSym.push(row.Sym);
                     });
                     //$scope.stocks = data;
                     $scope.mktPrice(arrSym, data);
+                    $scope.amtHand();
                     $scope.showAlert = true;
                 })
                 .error(function(data, status, headers, config) {
@@ -23,10 +35,11 @@
                 showGroupPanel: true,
                 rowHeight: 30,
                 enableCellEdit: true,
+                groups:['Sym','Type'],
                 aggregateTemplate: "<div ng-click=\"row.toggleExpand()\" ng-style=\"rowStyle(row)\" class=\"ngAggregate\">" +
                                     "    <span class=\"ngAggregateText\">" +
                                     "       <span class='ngAggregateTextLeading'>{{row.totalChildren()}} {{row.label CUSTOM_FILTERS}} </span>" +
-                                           "<span class='aggrVal'>Qty: {{ aggByLevel(row, 'Qty') }}  </span>" +
+                                           "<span class='aggrVal'>Qty: {{ aggByLevel(row, 'Qty', 1) }}  </span>" +
                                            "<span class='aggrVal'>Avg: {{ avgPrice(row, 'CostPrice')}}  </span>" +
                                            "<span class='aggrVal'>Cost: {{aggByLevel(row, 'CostPrice')}}  </span>" +
                                            "<span class='aggrVal'>Mkt: {{aggByLevel(row, 'MktValue')}}  </span>" +
@@ -34,10 +47,10 @@
                                         "</span>" +
                                     "    <div class=\"{{row.aggClass()}}\"></div>" +
                                     "</div>" + "",
-                columnDefs: [{field: 'Sym', displayName: 'Symbol'}, { field: 'Type', displayName: 'Type' },
-                    { field: 'Qty', displayName: 'Qty' }, { field: 'Price', displayName: 'Unit Price' }, { field: 'MktPrice', displayName: 'Mkt Price' },
-                    { field: 'CostPrice', displayName: 'Trans Cost' }, { field: 'MktValue', displayName: 'Mkt Value' },
-                    { field: 'Cmsn', displayName: 'Commission' }, { field: 'Date', displayName: 'Date' }]
+                columnDefs: [{ field: 'Sym', displayName: 'Symbol', width: '5%' }, { field: 'Type', displayName: 'Type', width: '3%' },
+                    { field: 'Qty', displayName: 'Qty', width: '3%' }, { field: 'Price', displayName: 'Unit Price', width: '7%' }, { field: 'MktPrice', displayName: 'Mkt Price', width: '7%' },
+                    { field: 'CostPrice', displayName: 'Cost', width: '7%' }, { field: 'MktValue', displayName: 'Mkt Value', width: '7%' },
+                    { field: 'Cmsn', displayName: 'Commission', width: '5%' }, { field: 'Date', displayName: 'Date', width: '9%' }]
             };
         };
         $scope.avgPrice = function (row, col) {
@@ -62,7 +75,7 @@
                     $.each(grpSym[row.label], function (j, item) {
                         if (item.Type == 'Sell') {
                             sQty += item.Qty;
-                            totSellPrice += ((item.Qty * item.Price) + item.Cmsn);
+                            totSellPrice += ((item.Qty * item.Price) - item.Cmsn);
                         } else {
                             bQty += item.Qty;
                             totCostPrice += ((item.Qty * item.Price) + item.Cmsn);
@@ -75,7 +88,7 @@
                 }
             }
         };
-        $scope.aggByLevel = function(row, col) {
+        $scope.aggByLevel = function(row, col, integer) {
             var total;
             var children;
             if (row.children.length == 0) {
@@ -85,7 +98,10 @@
                 children = row.children;
                 total = agg(children, col);
             }
-            return total.toFixed(2);
+            if (integer)
+                return total;
+            else
+                return total.toFixed(2);
         };
         var agg = function (children, col) {
             var total = 0;
@@ -95,13 +111,6 @@
             return total;
         };
        
-        $scope.entryMaybePlural = function (row) {
-            if (row.children.length > 1) {
-                return "entries";
-            }
-            else
-                return "entry";
-        };
         $scope.mktPrice = function(arrSym, rows) {
             getStock({
                     symbols: arrSym,
@@ -119,7 +128,7 @@
                         else
                             row.MktPrice = stock.quote.LastTradePriceOnly;
                         //Price*Qty
-                        row.MktValue = (row.MktPrice * row.Qty) - row.Cmsn;
+                        row.MktValue = ((row.MktPrice * row.Qty) - row.Cmsn).toFixed(2);
                         row.CostPrice = (row.Type == 'Buy' ? (row.Price * row.Qty) + row.Cmsn : (row.Price * row.Qty) - row.Cmsn).toFixed(2);
                     });
                     $scope.stocks = rows;
