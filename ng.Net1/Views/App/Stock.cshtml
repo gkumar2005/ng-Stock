@@ -1,23 +1,21 @@
-﻿<form role="form" ng-submit="post()" ng-controller="stockCtrl" id="form1">
+﻿<form role="form" ng-submit="post()" ng-controller="stockCtrl" name="myForm">
     <div class="form-group">
         <label for="symbol">Symbol</label>
-        <pre>Model: {{sym | json}}</pre>
-        <input required type="text" class="form-control" name="Sym" autocomplete="off" placeholder="Enter Symbol" ng-model="sym" typeahead="state for state in genData($viewValue) | filter : $viewValue |limitTo:8">
+        <input required="required" type="text" class="form-control" name="Sym" autocomplete="off" placeholder="Enter Symbol" ng-model="sym" typeahead="state for state in genData($viewValue) | filter : $viewValue |limitTo:8">
     </div>
-    <div class="form-group">
-        <label for="Type">Type</label>
-        <select class="form-control" name="Type" title="Type" ng-model="type">
-            <option value="0">Buy</option>
-            <option value="1">Sell</option>
+    <div class="form-group col-sm-1">
+        <label for="Type">Action</label>
+        <select required="required" class="form-control" name="Type" title="Type" ng-model="type" ng-options="type.id as type.val for type in types">
+            <option value="">Type</option>
         </select>
     </div>
     <div class="form-group">
         <label for="quantity">Quantity</label>
-        <input type="number" class="form-control" name="Qty" id="quantity" placeholder="Qty" ng-model="qty">
+        <input required type="number" class="form-control" name="Qty" id="quantity" placeholder="Qty" ng-model="qty">
     </div>
     <div class="form-group">
         <label for="Price">Price</label>
-        <input type="text" smart-float class="form-control" name="Price" id="Price" placeholder="Price" ng-model="price">
+        <input required type="text" smart-float class="form-control" name="Price" id="Price" placeholder="Price" ng-model="price">
     </div>
     <div class="checkbox">
         <label>
@@ -26,21 +24,21 @@
     </div>
     <div class="form-group">
         <label for="Comission">Comission</label>
-        <input type="text" smart-float class="form-control" name="Cmsn" id="Cmsn" placeholder="Comission" ng-model="cmsn">
+        <input type="text" smart-float class="form-control" name="Cmsn" id="Cmsn" placeholder="Comission" ng-model="cmsn" required="required">
     </div>
-
     <div class="form-group">
         <label for="Price">Date</label>
-        <input type="date" class="form-control" name="Date" id="Date" placeholder="Date" ng-model="dt">
+        <input type='date' class="form-control" name="transDate" ng-model="dt" />
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
+    <div ng-show="showAlert()" ng-model="message" />
 </form>
 <div class="form-group">
     Cash - <a ng-show="isDeposit" ng-click="deposit()">Deposit</a> / <a ng-show="isWithdraw" ng-click="withdraw()">Withdraw</a>
     <form ng-show="isCash" ng-submit="postAmt()">
-        <input type="text" smart-float ng-model="cash" placeholder="Cash"></input>
-        <input type="date" class="" name="Date" id="Date" placeholder="Date" ng-model="tranDt">
+        <input type="text" class="form-control" smart-float ng-model="cash" placeholder="Cash"></input>
+        <input type="date" class="form-control" name="depDate" id="depDate" ng-model="tranDt">
         <button type="submit" class="btn btn-default">Add</button>
-        <button  class="btn btn-default" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-default" ng-click="cancel()">Cancel</button>
     </form>
 </div>

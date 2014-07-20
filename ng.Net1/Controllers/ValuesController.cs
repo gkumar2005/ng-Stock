@@ -54,11 +54,12 @@ namespace ng.Net1.Controllers
         }
 
         // POST api/values
+        [HttpPost]
         public HttpResponseMessage Post(Trade td)
         {
             if (!ModelState.IsValid)
             {
-                var err = ModelState.Values.SelectMany(m => m.Errors.Select(e => e.ErrorMessage));
+                var err = ModelState.Values.SelectMany(m => m.Errors.Select(e => e.Exception.Message));
                 return Request.CreateResponse(HttpStatusCode.BadRequest, err);
             }
             var tradeNew = new Trade() { Sym = td.Sym, Type = td.Type, Qty = td.Qty, Price = td.Price, DCash = td.DCash, Cmsn = td.Cmsn, Date = td.Date };

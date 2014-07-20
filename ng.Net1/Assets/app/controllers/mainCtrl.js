@@ -26,7 +26,7 @@
 
         $scope.$on('$locationChangeSuccess', function (event) {
             //possiblity of updating token on this request.  This could be the keepalive function.
-            $scope.getUserName();
+            //$scope.getUserName();
         });
 
         //On Load, get the username
