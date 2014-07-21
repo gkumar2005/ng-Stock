@@ -1,5 +1,5 @@
 ﻿angular.module('stock', ['ui.bootstrap'])
-    .controller('stockCtrl', ['$scope', '$http','$filter','$q', function ($scope, $http, $filter, $q) {
+    .controller('stockCtrl', ['$scope', '$http', '$filter', '$q', '$timeout', function ($scope, $http, $filter, $q, $timeout) {
         $scope.isCash = false;
         $scope.isDeposit = true;
         $scope.isWithdraw = true;
@@ -54,18 +54,19 @@
         };
         $scope.post = function() {
             var params = { Sym: $scope.sym, Type: $scope.type, Qty: $scope.qty, Price: $scope.price, DCash: $scope.dCash, Cmsn: $scope.cmsn, Date: $scope.dt };
-            var deferred = $q.defer();
             $http.post('/api/Values/Post', params)
                 .success(function (data, status, headers, cofig) {
-                    $scope.showAlert = true;
-                    deferred.resolve(data);
+                    if (status==202)
+                        $scope.messages = "Success";
                     //location.href = '#/stockDetails';
                 })
                 .error(function (data, status, headers, config) {
-                    $scope.showAlert = true;
-                    return deferred.reject(data);
+                    //$timeout(function () {
+                        $scope.messages = data;
+                   // });
+                    //return deferred.reject(data);
                 });
-            return deferred.promise;
+            //return deferred.promise;
         };
     }])
 //.directive(
