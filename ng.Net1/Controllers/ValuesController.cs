@@ -41,6 +41,7 @@ namespace ng.Net1.Controllers
         {
             var cash = new Cash();
             var grTrade = db.trades.GroupBy(t => t.Type);
+            cash.StockHand = grTrade.Where(g => g.Key == 0).Select(grp => grp.Where(t => !t.Archive).Sum(tr => tr.Price * tr.Qty + tr.Cmsn)).FirstOrDefault();
             cash.StockPur = grTrade.Where(g => g.Key == 0).Select(grp => grp.Sum(tr => tr.Price*tr.Qty + tr.Cmsn)).FirstOrDefault();
             Decimal x = 0.0m;
             foreach (var grp in grTrade.Where(g => g.Key == 1))

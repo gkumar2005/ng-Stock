@@ -7,6 +7,7 @@
                     $scope.StockSold = data.StockSold;
                     $scope.Deposited = data.Deposited;
                     $scope.Withdrawn = data.Withdrawn;
+                    $scope.StockHand = data.StockHand;
                     $scope.InHand = data.InHand;
                     $scope.$apply();
                 });
