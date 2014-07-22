@@ -17,7 +17,7 @@ namespace ng.Net1.Controllers
         // GET api/values
         public IEnumerable<Trade> Get()
         {
-            return db.trades;
+            return db.trades.Where(t=>t.Archive);
         }
         private static Decimal fn(IGrouping<int,Trade> grp)
         {

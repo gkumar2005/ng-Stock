@@ -1,5 +1,5 @@
 ﻿angular.module('stockDetail', ['ngGrid'])
-    .controller('stockDetailCtrl', ['$scope', '$http', '$q', function ($scope, $http, $q) {
+    .controller('stockDetailCtrl', ['$scope', '$http', '$q', '$filter', function ($scope, $http, $q, $filter) {
         $scope.amtHand = function() {
             $http.get('/api/Values/GetCash')
                 .success(function(data, status, headers, cofig) {
@@ -18,6 +18,7 @@
                     angular.forEach(data, function(row) {
                         row.Type = row.Type == '0' ? 'Buy' : 'Sell';
                         row.Qty = parseInt(row.Qty);
+                        row.Date = $filter('date')(row.Date, 'MM-dd-yyyy');
                         arrSym.push(row.Sym);
                     });
                     //$scope.stocks = data;
@@ -35,26 +36,35 @@
                 showGroupPanel: true,
                 rowHeight: 30,
                 enableCellEdit: true,
-                groups:['Sym','Type'],
+                groups: ['Sym', 'Type'],
+                sortInfo: {fields:['Type'], directions:['asc']},
+                enableColumnResize: true,
+                enableColumnReordering: true,
+                showColumnMenu: true,
+                showFilter: true,
                 aggregateTemplate: "<div ng-click=\"row.toggleExpand()\" ng-style=\"rowStyle(row)\" class=\"ngAggregate\">" +
                                     "    <span class=\"ngAggregateText\">" +
-                                    "       <span class='ngAggregateTextLeading'>{{row.totalChildren()}} {{row.label CUSTOM_FILTERS}} </span>" +
-                                           "<span class='aggrVal'>Qty: {{ aggByLevel(row, 'Qty', 1) }}  </span>" +
-                                           "<span class='aggrVal'>Avg: {{ avgPrice(row, 'CostPrice')}}  </span>" +
-                                           "<span class='aggrVal'>Cost: {{aggByLevel(row, 'CostPrice')}}  </span>" +
-                                           "<span class='aggrVal'>Mkt: {{aggByLevel(row, 'MktValue')}}  </span>" +
-                        "<span class='aggrVal'>{{profitByQty(row)}}  </span>" +
+                                           "<span class='ngAggregateTextLeading'>{{row.totalChildren()}} {{row.label CUSTOM_FILTERS}} </span>" +
+                                           "<span class='aggrVal'> {{ aggLevel2(row, 'Qty')}} {{aggL1(row, 'Qty', 'Qty:', 1)}}  </span>" +
+                                           "<span class='aggrVal'> {{ avgPriceL1(row, 'CostPrice')}}  </span>" +
+                                           "<span class='aggrVal'> {{aggL1(row, 'CostPrice', 'Cost:')}}  </span>" +
+                                           "<span class='aggrVal'> {{aggL1(row, 'MktValue', 'Mrkt:')}}  </span>" +
+                                           "<span class='aggrVal'> {{profitByQty(row)}} </span>" +
                                         "</span>" +
                                     "    <div class=\"{{row.aggClass()}}\"></div>" +
-                                    "</div>" + "",
-                columnDefs: [{ field: 'Sym', displayName: 'Symbol', width: '5%' }, { field: 'Type', displayName: 'Type', width: '3%' },
-                    { field: 'Qty', displayName: 'Qty', width: '3%' }, { field: 'Price', displayName: 'Unit Price', width: '7%' }, { field: 'MktPrice', displayName: 'Mkt Price', width: '7%' },
-                    { field: 'CostPrice', displayName: 'Cost', width: '7%' }, { field: 'MktValue', displayName: 'Mkt Value', width: '7%' },
+                                    "</div>",
+                columnDefs: [{ field: 'Sym', displayName: 'Symbol', width: '10%' }, { field: 'Type', displayName: 'Type', width: '3%', cellClass: 'grid-align' },
+                    { field: 'Qty', displayName: 'Qty', width: '3%' }, { field: 'Price', displayName: 'Unit Price', width: '7%', cellClass: 'grid-align' }, { field: 'MktPrice', displayName: 'Mkt Price', width: '7%', cellClass: 'grid-align' },
+                    { field: 'CostPrice', displayName: 'Cost', width: '7%', cellClass: 'grid-align' }, { field: 'MktValue', displayName: 'Mkt Value', width: '7%', cellClass: 'grid-align' },
                     { field: 'Cmsn', displayName: 'Commission', width: '5%' }, { field: 'Date', displayName: 'Date', width: '9%' }]
             };
         };
-        $scope.avgPrice = function (row, col) {
-            return ($scope.aggByLevel(row, col) / $scope.aggByLevel(row, 'Qty')).toFixed(2);
+        $scope.avgPriceL1 = function (row, col) {
+            var avg;
+            if (row.children.length > 0) {
+                avg = "Avg:" + ($scope.aggLevel1(row, col) / $scope.aggLevel1(row, 'Qty')).toFixed(2);
+                return avg;
+            }
         };
         $scope.profitByQty = function(row) {
             var profit ='';
@@ -88,20 +98,33 @@
                 }
             }
         };
-        $scope.aggByLevel = function(row, col, integer) {
+        $scope.aggLevel2 = function (row, col) {
             var total;
             var children;
             if (row.children.length == 0) {
                 children = row.aggChildren;
-                total = (children.length == 2) ? agg(children[0].children, col) - agg(children[1].children, col) : agg(children[0].children, col); //ex: Type = buy and sell
-            } else {
-                children = row.children;
-                total = agg(children, col);
+                if (children.length == 2 && col == 'Qty')
+                    total = agg(children[0].children, col) - agg(children[1].children, col); //ex: qty = buyQty - sellQty
+            } 
+            if (total != undefined) {
+                return col + ":" + total;
             }
-            if (integer)
-                return total;
-            else
-                return total.toFixed(2);
+        };
+        $scope.aggL1 = function (row, col, label, integer) {
+            var sum = $scope.aggLevel1(row, col, integer);
+            if (sum != undefined)
+                return label + sum;
+        };
+        $scope.aggLevel1 = function (row, col, integer) {
+            var sum;
+            if (row.children.length > 0) {
+                sum = agg(row.children, col);
+                if (!integer)
+                    return sum.toFixed(2);
+                else {
+                    return sum;
+                }
+            }
         };
         var agg = function (children, col) {
             var total = 0;

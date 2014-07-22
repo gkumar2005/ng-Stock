@@ -57,7 +57,7 @@ namespace ng.Net1
             //    appId: "",
             //    appSecret: "");
 
-            //app.UseGoogleAuthentication();
+            app.UseGoogleAuthentication();
         }
     }
 }

@@ -45,12 +45,14 @@ namespace ng.Net1.Models
         public int Qty{get;set;}
         [Required] [DisplayFormat(DataFormatString = "{0:c}")]
         public Decimal Price { get; set; }
+        [Required]
         public bool DCash{get;set;}
         [Required]
         public Decimal Cmsn { get; set; }
         [Required] [DisplayFormat(DataFormatString="{0:d}")]
         public DateTime Date { get; set; }
-
+        [Required]
+        public bool Archive { get; set; }
     }
     public class User : IdentityUser
     {

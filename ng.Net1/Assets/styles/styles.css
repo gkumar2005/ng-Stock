@@ -3,9 +3,12 @@
 input[type='text'],input[type='date'],input[type='number'],select{ width: 250px; }
 .aggrVal{ margin-left: 3rem;}
 .gridStyle {
-border: 1px solid rgb(212,212,212);
-width: 120rem;
-    height: 400px;
+    border: 1px solid rgb(212,212,212);
+    width: 120rem;
+    height: 650px;
+}
+.grid-align{
+    text-align: center;
 }
 .site-header {
     /*color: #F2EFDC;*/
