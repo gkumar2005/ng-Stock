@@ -47,7 +47,7 @@ namespace ng.Net1.Controllers
                 CP = (decimal?)grp.Where(t => t.Archive).Sum(tr => tr.Price * tr.Qty + tr.Cmsn)
             }).ToList();
             var sumSell = grSymType.Where(g => g.Key.Type == 1).Select(grp => new {grp.Key.Sym,
-                                                                                   SP = (decimal?)grp.Where(t => t.Archive).Sum(tr => tr.Price * tr.Qty + tr.Cmsn)
+                                                                                   SP = (decimal?)grp.Where(t => t.Archive).Sum(tr => tr.Price * tr.Qty - tr.Cmsn)
             }).ToList();
             var profBySym =
                 sumSell.Join(sumBuy, s => s.Sym, b => b.Sym, (s, b) => new { s.Sym, Prof = s.SP - b.CP }).ToList();

@@ -93,7 +93,7 @@ namespace ng.Net1.Models
         //Override default table names
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            Database.SetInitializer(new DBInitializer());
+           // Database.SetInitializer(new DBInitializer());
             base.OnModelCreating(modelBuilder);
 
             //When the Model/Database are created, the default user and roles tables will be mapped to different names. EX: IdentityUser -> Users.
