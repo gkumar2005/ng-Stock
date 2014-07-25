@@ -20,6 +20,7 @@ namespace ng.Net1.Models
         public Decimal? Withdrawn { get; set; }
         public Decimal? InHand { get; set; }
         public decimal? StockHand { get; set; }
+        public decimal? Profit{ get; set; }
     }
     public class Account
     {

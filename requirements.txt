@@ -1,0 +1,39 @@
+Stock Purc: sum(tcp)
+Stock Sold: sum(tsp)
+Deposited: sum(Dep + div)
+Withdrawn: sum(Withdrew)
+Stock InHand: 
+
+Profit: 
+Cash InHand: sum(Deposited + sold -(Stock Purc + Withdrawn))
+
+By Symbol
+prof = tcp - tsp = avgCP*sum(soQty) - avgSP*sum(soQty)
+Qty = sum(B.qty) - sum(S.qty)
+
+Buy trans
+avgCP = sum(cp) / sum(qty)
+tcp = sum(cp)
+tmv = sum(cmv)
+
+Sell trans
+avgSP = sum(sp) / sum(qty)
+tsp = sum(sp)
+tmv = sum(cmv)
+
+AllRows
+cp = bp*qty+com
+cmv= mp*qty-com
+sp = sop*qty-com
+
+
+
+
+cmv = curr markt value
+tmv = tot  markt value
+-----------------------------------------
+
+1. data reliability
+2. api - poc
+3. split row based on qty
+4. display bought & bought/sold

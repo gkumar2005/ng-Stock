@@ -35,11 +35,28 @@ namespace ng.Net1.Controllers
 //          from trades group by type 
 //        select type, SUM(amount) as Cash into #Account 
 //          from account group by type
-        // GET api/values/5
+        // GET api/values/GetCash
         [HttpGet]
         public Cash GetCash()
         {
-            var cash = new Cash();
+            var cash = new Cash(); 
+            var grSymType = db.trades.GroupBy(t => new { t.Sym, t.Type });
+            var sumBuy = grSymType.Where(g => g.Key.Type == 0).Select(grp => new
+            {
+                grp.Key.Sym,
+                CP = (decimal?)grp.Where(t => t.Archive).Sum(tr => tr.Price * tr.Qty + tr.Cmsn)
+            }).ToList();
+            var sumSell = grSymType.Where(g => g.Key.Type == 1).Select(grp => new {grp.Key.Sym,
+                                                                                   SP = (decimal?)grp.Where(t => t.Archive).Sum(tr => tr.Price * tr.Qty + tr.Cmsn)
+            }).ToList();
+            var profBySym =
+                sumSell.Join(sumBuy, s => s.Sym, b => b.Sym, (s, b) => new { s.Sym, Prof = s.SP - b.CP }).ToList();
+            cash.Profit = profBySym.Sum(p => p.Prof);
+
+            //cash.Profit = (from s in sumSell
+            //              join b in sumBuy
+            //                  on s.Sym equals b.Sym
+            //               select new { s.Sym, Prof = s.SP - b.CP }).Sum(p => p.Prof);
             var grTrade = db.trades.GroupBy(t => t.Type);
             cash.StockHand = grTrade.Where(g => g.Key == 0).Select(grp => grp.Where(t => !t.Archive).Sum(tr => tr.Price * tr.Qty + tr.Cmsn)).FirstOrDefault();
             cash.StockPur = grTrade.Where(g => g.Key == 0).Select(grp => grp.Sum(tr => tr.Price*tr.Qty + tr.Cmsn)).FirstOrDefault();
