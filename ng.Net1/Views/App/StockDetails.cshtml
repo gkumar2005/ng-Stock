@@ -1,12 +1,13 @@
 ﻿<div>
-
-    <div class="gridStyle" ng-grid="gridOptions"></div>
-    <div>Stock Purc: {{ StockPur}}</div>
-    <div>Stock Sold: {{ StockSold}}</div>
-    <div>Deposited: {{ Deposited}}</div>
-    <div>Withdrawn: {{ Withdrawn}}</div>
-    <div>Stock InHand: {{ StockHand}}</div>
-    <div>Profit: {{ Profit}}</div>
-    <div>Cash InHand: {{ InHand}}</div>
-
+    <div class="gridStyle hgt" ng-grid="gridOptions"></div>
+    <div class="gridStyle hgtOld" ng-grid="oldGridOptions"></div>
+    <div>
+        <span>Stock Purc: {{ StockPur | currency}} </span> <span style="margin-left:10px">Stock Sold: {{ StockSold | currency}}</span>
+    </div>
+    <div>
+        <span>Deposited: {{ Deposited | currency}} </span> <span style="margin-left:10px; color:green; font-weight:bold">Profit: {{ Profit | currency}}</span>
+    </div>
+    <div>
+        <span>Stock InHand: {{ StockHand | currency}} </span> <span style="margin-left:10px">Cash InHand: {{ InHand | currency}}</span>
+    </div>
 </div>

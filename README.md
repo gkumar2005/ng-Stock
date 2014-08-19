@@ -1,4 +1,0 @@
-ng-Stock
-========
-
-Stock porfolio

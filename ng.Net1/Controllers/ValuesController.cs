@@ -7,28 +7,64 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using ng.Net1.Models;
-
+using System.Collections;
+using System.Data.Entity;
 namespace ng.Net1.Controllers
 {
     //[Authorize]
     public class ValuesController : ApiController
     {
         private DBContext db = new DBContext();
+        
         // GET api/values
-        public IEnumerable<Trade> Get()
+        public IEnumerable<IGrouping<bool,Trade>> Get()
         {
-            return db.trades.Where(t=>t.Archive);
+            SegregateTrade();
+            return db.trades.Local.OrderBy(t => t.Archive).ThenBy(t=>t.Sym).GroupBy(t => t.Archive);
         }
-        private static Decimal fn(IGrouping<int,Trade> grp)
+        private void SegregateTrade()
         {
-// ReSharper disable ReturnValueOfPureMethodIsNotUsed
-            Decimal sum = 0;
-            foreach (Trade td in grp)
+            var grSymType = db.trades.GroupBy(t => new { t.Sym, t.Type });
+            var grpSumQty = grSymType.Select(grps => new { grps.Key.Sym, grps.Key.Type, sumQty = grps.Sum(t => t.Qty) });
+
+            foreach (var grpSym in grpSumQty.GroupBy(t => t.Sym).Where(grp => grp.Count() == 2)) //for every Sym if there is buy & sell
             {
-                if (td.Type == 1) sum += (td.Price*td.Qty - td.Cmsn);
+                var sumBuyQty = grpSym.SingleOrDefault(grps => grps.Type == 0).sumQty;
+                var sumSellQty = grpSym.SingleOrDefault(grps => grps.Type == 1).sumQty;
+                var sellQty = sumSellQty;
+                var soldQty = 0;
+                if (sumBuyQty >= sellQty)
+                {
+                    foreach (var trd in db.trades.Where(t => t.Sym == grpSym.Key && t.Type == 0).OrderBy(t => t.Date)) //Loop buy transaction 
+                    {
+                        if (trd.Qty > sellQty && sellQty > 0) // Buy:5 Sell:1 then currBuy:4  arcBuy:1 | Buy:2 Sell:2 then currBuy:0  arcBuy:2
+                        {
+                            soldQty = sellQty;
+                            trd.Qty = trd.Qty - sellQty; //update current qty and set as not sold | currBuy:4
+                            trd.Archive = false;
+                        }
+                        else //Sell:5 Buy:1 | Sell:5 Buy:5   //totSale >= current buy transaction, then it is marked as sold out (or) archBuy
+                        {
+                            sellQty -= trd.Qty;
+                            if (sellQty >= 0) //totSale >= current buy transaction, then it is marked as sold out
+                                trd.Archive = true;
+                            else
+                                trd.Archive = false;
+                        }
+                    }
+                    foreach (var trd in db.trades.Where(t => t.Sym == grpSym.Key && t.Type == 1)) //Loop sell transaction 
+                    {
+                        if (sumBuyQty >= sumSellQty) // Buy:5 Sell:1
+                        {
+                            trd.Archive = true;
+                        }
+                    }
+                }
+
+                if (soldQty > 0) //sold out (or) archBuy
+                    db.trades.Add(new Trade() { Sym = grpSym.Key, Type = 0, Qty = soldQty, Archive = true });
+
             }
-            return sum;
-// ReSharper restore ReturnValueOfPureMethodIsNotUsed
         }
 
 //        select Type, case when type=0 then SUM(Price*Qty+Cmsn) else SUM(Price*Qty-Cmsn) end as Cash into #Trade 
@@ -39,8 +75,9 @@ namespace ng.Net1.Controllers
         [HttpGet]
         public Cash GetCash()
         {
+            SegregateTrade();
             var cash = new Cash(); 
-            var grSymType = db.trades.GroupBy(t => new { t.Sym, t.Type });
+            var grSymType = db.trades.Local.GroupBy(t => new { t.Sym, t.Type });
             var sumBuy = grSymType.Where(g => g.Key.Type == 0).Select(grp => new
             {
                 grp.Key.Sym,
@@ -57,17 +94,14 @@ namespace ng.Net1.Controllers
             //              join b in sumBuy
             //                  on s.Sym equals b.Sym
             //               select new { s.Sym, Prof = s.SP - b.CP }).Sum(p => p.Prof);
-            var grTrade = db.trades.GroupBy(t => t.Type);
-            cash.StockHand = grTrade.Where(g => g.Key == 0).Select(grp => grp.Where(t => !t.Archive).Sum(tr => tr.Price * tr.Qty + tr.Cmsn)).FirstOrDefault();
-            cash.StockPur = grTrade.Where(g => g.Key == 0).Select(grp => grp.Sum(tr => tr.Price*tr.Qty + tr.Cmsn)).FirstOrDefault();
-            Decimal x = 0.0m;
-            foreach (var grp in grTrade.Where(g => g.Key == 1))
-                cash.StockSold = fn(grp);
+            var grTrade = db.trades.Local;
+            cash.StockHand = grTrade.Where(g => g.Type == 0 && !g.Archive).Sum(tr => (tr.Price * tr.Qty) + tr.Cmsn);
+            cash.StockPur = grTrade.Where(g => g.Type == 0).Sum(tr => (tr.Price * tr.Qty) + tr.Cmsn);
+            cash.StockSold = grTrade.Where(g => g.Type == 1).Sum(tr => (tr.Price * tr.Qty) - tr.Cmsn);
            
             var grAccount = db.account.GroupBy(a => a.Type);
-            cash.Deposited = grAccount.Where(ac => ac.Key == 1).Select(grp => grp.Sum(grpDep => grpDep.Amount)).FirstOrDefault();
-            cash.Withdrawn = grAccount.Where(ac => ac.Key == 0).Select(grp => grp.Select(grpWd => grpWd.Amount).Sum()).FirstOrDefault();
-            cash.InHand = cash.Deposited + cash.StockSold - (cash.StockPur + cash.Withdrawn);
+            cash.Deposited = grAccount.Select(grps => grps.Key == 1 ? grps.Sum(grp => grp.Amount) : grps.Sum(grp => -grp.Amount)).Sum();
+            cash.InHand = cash.Deposited + cash.StockSold - cash.StockPur;
             return cash;
         }
 
@@ -80,8 +114,8 @@ namespace ng.Net1.Controllers
                 var err = ModelState.Values.SelectMany(m => m.Errors.Select(e => e.Exception.Message));
                 return Request.CreateResponse(HttpStatusCode.BadRequest, err);
             }
-            var tradeNew = new Trade() { Sym = td.Sym, Type = td.Type, Qty = td.Qty, Price = td.Price, DCash = td.DCash, Cmsn = td.Cmsn, Date = td.Date };
-            db.trades.Add(tradeNew);
+            //var tradeNew = new Trade(){ Sym = td.Sym, Type = td.Type, Qty = td.Qty, Price = td.Price, DCash = td.DCash, Cmsn = td.Cmsn, Date = td.Date, Archive=td.Archive };
+            db.trades.Add(td);
             db.SaveChanges();
             return Request.CreateResponse(HttpStatusCode.Accepted);
         }

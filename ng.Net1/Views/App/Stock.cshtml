@@ -3,9 +3,9 @@
         <label for="symbol">Symbol</label>
         <input required="required" type="text" class="form-control" name="Sym" autocomplete="off" placeholder="Enter Symbol" ng-model="sym" typeahead="state for state in genData($viewValue) | filter : $viewValue |limitTo:8">
     </div>
-    <div class="form-group col-sm-1">
+    <div class="form-group col-md-2">
         <label for="Type">Action</label>
-        <select required="required" class="form-control" name="Type" title="Type" ng-model="type" ng-options="type.id as type.val for type in types">
+        <select required="required" class="form-control" name="Type" title="Type" ng-model="types.type" ng-options="type.id as type.val for type in types.values">
             <option value="">Type</option>
         </select>
     </div>
@@ -31,6 +31,7 @@
         <input type='date' class="form-control" name="transDate" ng-model="dt" />
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
+    <div style="color:green">{{ msg }}</div>
     <ul>
         <li ng-repeat="msg in messages">{{ msg }}</li>
     </ul>

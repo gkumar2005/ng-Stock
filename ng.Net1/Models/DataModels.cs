@@ -53,7 +53,7 @@ namespace ng.Net1.Models
         public Decimal Cmsn { get; set; }
         [Required] [DisplayFormat(DataFormatString="{0:d}")]
         public DateTime Date { get; set; }
-        [Required]
+       // [Required]
         public bool Archive { get; set; }
     }
     public class User : IdentityUser

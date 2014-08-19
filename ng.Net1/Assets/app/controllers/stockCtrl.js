@@ -1,12 +1,15 @@
 ﻿angular.module('stock', ['ui.bootstrap'])
     .controller('stockCtrl', ['$scope', '$http', '$filter', '$q', '$timeout', function ($scope, $http, $filter, $q, $timeout) {
+        $scope.cmsn = 2.5;
+        $scope.qty = 10;
         $scope.isCash = false;
         $scope.isDeposit = true;
         $scope.isWithdraw = true;
         $scope.dCash = true;
-        $scope.dt = $filter('date')(new Date(), 'yyyy-MM-dd');// dateFilter(new Date(), 'yyyy-MM-dd');
+        $scope.dt = $filter('date')(new Date(), 'yyyy-MM-dd');
         $scope.tranDt = $filter('date')(new Date(), 'yyyy-MM-dd');
-        $scope.types = [{ id: 0, val: "Buy" }, { id: 1, val: "Sell" }];
+        $scope.types = { type: 0, values: [{ id: 0, val: "Buy" }, { id: 1, val: "Sell" }] };
+
         $scope.deposit = function() {
             $scope.isWithdraw = false;
             $scope.isCash = true;
@@ -53,11 +56,11 @@
             return deferred.promise;
         };
         $scope.post = function() {
-            var params = { Sym: $scope.sym, Type: $scope.type, Qty: $scope.qty, Price: $scope.price, DCash: $scope.dCash, Cmsn: $scope.cmsn, Date: $scope.dt };
+            var params = { Sym: $scope.sym, Type: $scope.types.type, Qty: $scope.qty, Price: $scope.price, DCash: $scope.dCash, Cmsn: $scope.cmsn, Date: $scope.dt, Archive: false };
             $http.post('/api/Values/Post', params)
                 .success(function (data, status, headers, cofig) {
                     if (status==202)
-                        $scope.messages = "Success";
+                        $scope.msg = "Success!!";
                     //location.href = '#/stockDetails';
                 })
                 .error(function (data, status, headers, config) {
