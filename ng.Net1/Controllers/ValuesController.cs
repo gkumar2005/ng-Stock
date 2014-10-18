@@ -114,7 +114,7 @@ namespace ng.Net1.Controllers
                 var err = ModelState.Values.SelectMany(m => m.Errors.Select(e => e.Exception.Message));
                 return Request.CreateResponse(HttpStatusCode.BadRequest, err);
             }
-            //var tradeNew = new Trade(){ Sym = td.Sym, Type = td.Type, Qty = td.Qty, Price = td.Price, DCash = td.DCash, Cmsn = td.Cmsn, Date = td.Date, Archive=td.Archive };
+            //var tradeNew = new Trade(){ Sym = td.Sym, Type = td.Type, Qty = td.Qty, Price = td.Price, Cmsn = td.Cmsn, Date = td.Date, Archive=td.Archive };
             db.trades.Add(td);
             db.SaveChanges();
             return Request.CreateResponse(HttpStatusCode.Accepted);
