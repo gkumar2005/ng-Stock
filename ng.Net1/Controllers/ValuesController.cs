@@ -16,10 +16,11 @@ namespace ng.Net1.Controllers
     {
         private DBContext db = new DBContext();
          [HttpPost]
-        public void Postg(IList<Trade> td)
+        public HttpResponseMessage Postg(IList<Trade> td)
         {
             db.trades.AddRange(td);
             db.SaveChanges();
+            return Request.CreateResponse(HttpStatusCode.Accepted);
         }
         // GET api/values
         public IEnumerable<IGrouping<bool,Trade>> Get()

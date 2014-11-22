@@ -1,5 +1,14 @@
 ﻿angular.module('stockDetail', ['ngGrid'])
     .controller('stockDetailCtrl', ['$scope', '$http', '$q', '$filter', function ($scope, $http, $q, $filter) {
+        $scope.jsonPost = function () {
+            $http.post('/api/Values/Postg', $scope.jsonRows)
+            .success(function (data, status, headers, cofig) {
+                $scope.msg = data.Message;
+            })
+                .error(function (data, status, headers, config) {
+                    $scope.msg = data.InnerException.InnerException.ExceptionMessage;
+                });
+        };
         $scope.amtHand = function() {
             $http.get('/api/Values/GetCash')
                 .success(function(data, status, headers, cofig) {

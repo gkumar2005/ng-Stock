@@ -1,13 +1,22 @@
 ﻿<div>
-    <div class="gridStyle hgt" ng-grid="gridOptions"></div>
-    <div class="gridStyle hgtOld" ng-grid="oldGridOptions"></div>
-    <div>
-        <span>Stock Purc: {{ StockPur | currency}} </span> <span style="margin-left:10px">Stock Sold: {{ StockSold | currency}}</span>
-    </div>
-    <div>
-        <span>Deposited: {{ Deposited | currency}} </span> <span style="margin-left:10px; color:green; font-weight:bold">Profit: {{ Profit | currency}}</span>
-    </div>
-    <div>
-        <span>Stock InHand: {{ StockHand | currency}} </span> <span style="margin-left:10px">Cash InHand: {{ InHand | currency}}</span>
-    </div>
+    <pre><code>var x=[]; var tbl = $('table#TTransactions tr:not(".standard")').each(function(j, row) {
+  x.push({ "Date" : $(row.cells[1]).text() , "Sym" : $(row.cells[4]).text()
+, "Type" : $(row.cells[3]).text()=="Sell"?1:0, "Qty" : $(row.cells[5]).text()
+, "Price" : $(row.cells[6]).text(), "Cmsn" : $(row.cells[7]).text()}); }); JSON.stringify(x);</code></pre>
+    <form ng-submit="jsonPost()">
+        <textarea id="textarea" ng-model="jsonRows" class="form-control col-lg-10" />
+        <input type="submit" value="Post" class="btn btn-default" />
+    </form>
+    <div style="color:red">{{ msg}}</div>
+        <div class="gridStyle hgt" ng-grid="gridOptions"></div>
+        <div class="gridStyle hgtOld" ng-grid="oldGridOptions"></div>
+        <div>
+            <span>Stock Purc: {{ StockPur | currency}} </span> <span style="margin-left:10px">Stock Sold: {{ StockSold | currency}}</span>
+        </div>
+        <div>
+            <span>Deposited: {{ Deposited | currency}} </span> <span style="margin-left:10px; color:green; font-weight:bold">Profit: {{ Profit | currency}}</span>
+        </div>
+        <div>
+            <span>Stock InHand: {{ StockHand | currency}} </span> <span style="margin-left:10px">Cash InHand: {{ InHand | currency}}</span>
+        </div>
 </div>
