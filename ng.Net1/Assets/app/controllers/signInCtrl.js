@@ -13,7 +13,7 @@
                 $http.defaults.headers.common.Authorization = "Bearer " + data.access_token;
                 
                 $cookieStore.put('_Token', data.access_token);
-                window.location = '#/maindashboard';
+                window.location = '/';
             })
             .error(function (data, status, headers, config) {
                 $scope.message = data.error_description;

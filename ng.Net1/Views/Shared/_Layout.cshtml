@@ -9,16 +9,17 @@
 </head>
 <body>
     @RenderBody()
-
+    @Scripts.Render("~/jquery")
     @Scripts.Render("~/ng")
     @Scripts.Render("~/app")
-    @Scripts.Render("~/jquery")
+
     @Scripts.Render("~/bootstrap")
     @Scripts.Render("~/misc")
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.js"></script>
+
+    @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ng-grid/2.0.11/ng-grid.min.js"></script>*@
+    <link rel="stylesheet" type="text/css" href="http://angular-ui.github.com/ng-grid/css/ng-grid.css" />
+
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="http://angular-ui.github.com/ng-grid/css/ng-grid.css" />
-    <script type="text/javascript" src="http://angular-ui.github.com/ng-grid/lib/ng-grid.debug.js"></script>
 </body>
-        </html>
+</html>

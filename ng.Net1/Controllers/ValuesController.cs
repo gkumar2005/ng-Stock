@@ -39,7 +39,7 @@ namespace ng.Net1.Controllers
                 var sumSellQty = grpSym.SingleOrDefault(grps => grps.Type == 1).sumQty;
                 var sellQty = sumSellQty;
                 var soldQty = 0;
-                if (sumBuyQty >= sellQty)
+                if (sumBuyQty >= sellQty) // Always true as buy >= sell
                 {
                     foreach (var trd in db.trades.Where(t => t.Sym == grpSym.Key && t.Type == 0).OrderBy(t => t.Date)) //Loop buy transaction 
                     {

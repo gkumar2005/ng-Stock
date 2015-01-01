@@ -1,15 +1,18 @@
 ﻿angular.module('stock', ['ui.bootstrap'])
-    .controller('stockCtrl', ['$scope', '$http', '$filter', '$q', '$timeout', function ($scope, $http, $filter, $q, $timeout) {
-        $scope.cmsn = 2.5;
-        $scope.qty = 10;
-        $scope.isCash = false;
-        $scope.isDeposit = true;
-        $scope.isWithdraw = true;
-        
-        $scope.dt = $filter('date')(new Date(), 'yyyy-MM-dd');
-        $scope.tranDt = $filter('date')(new Date(), 'yyyy-MM-dd');
-        $scope.types = { type: 0, values: [{ id: 0, val: "Buy" }, { id: 1, val: "Sell" }] };
+    .controller('stockCtrl', ['$scope', '$http', '$filter', '$q', '$timeout','$cookieStore', function ($scope, $http, $filter, $q, $timeout, $cookieStore) {
+        if ($cookieStore.get('_Token') == undefined)
+            window.location = '#/signin';
+        else {
+            $scope.cmsn = 2.5;
+            $scope.qty = 10;
+            $scope.isCash = false;
+            $scope.isDeposit = true;
+            $scope.isWithdraw = true;
 
+            $scope.dt = $filter('date')(new Date(), 'yyyy-MM-dd');
+            $scope.tranDt = $filter('date')(new Date(), 'yyyy-MM-dd');
+            $scope.types = { type: 0, values: [{ id: 0, val: "Buy" }, { id: 1, val: "Sell" }] };
+        }
         $scope.deposit = function() {
             $scope.isWithdraw = false;
             $scope.isCash = true;
@@ -45,7 +48,7 @@
                 var sym = [];
 
                 angular.forEach(data.ResultSet.Result, function(item) {
-                    sym.push(item.symbol);
+                    sym.push({ sym: item.symbol, name: item.name });
                     deferred.resolve(sym);
                 });
             };

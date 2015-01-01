@@ -1,5 +1,5 @@
 ﻿angular.module('stockDetail', ['ngGrid'])
-    .controller('stockDetailCtrl', ['$scope', '$http', '$q', '$filter', function ($scope, $http, $q, $filter) {
+    .controller('stockDetailCtrl', ['$scope', '$http', '$filter','$cookieStore', function ($scope, $http, $filter,$cookieStore) {
         $scope.jsonPost = function () {
             $http.post('/api/Values/Postg', $scope.jsonRows)
             .success(function (data, status, headers, cofig) {
@@ -21,6 +21,7 @@
                     $scope.InHand = data.InHand;
                 });
         };
+        
         $scope.getList = function() {
             $http.get('/api/Values/Get')
                 .success(function(data, status, headers, cofig) {
@@ -56,7 +57,7 @@
                 showFilter: true,
                 aggregateTemplate: "<div  ng-click=\"row.toggleExpand()\" ng-style=\"rowStyle(row)\" class=\"ngAggregate\">" +
                                         "<span class=\"ngAggregateText\">" +
-                                            "<span class='ngAggregateTextLeading'>{{row.totalChildren()}} {{row.label CUSTOM_FILTERS}} </span>" +
+                                            "<span class='ngAggregateTextLeading'>{{row.totalChildren()}} {{row.label}} </span>" +
                                             "<span class='aggrVal'> {{aggL1(row, 'Qty', 'Qty:', 1)}}  </span>" +
                                             "<span class='aggrVal'> {{ avgPriceL1(row, 'CostPrice')}}  </span>" +
                                             "<span> <input type='textbox' style='width: 30px;' ng-model='Qty2Buy' ng-change='ifAddQty(row, y, this)' ng-click='$event.stopPropagation();' />" +
@@ -84,7 +85,7 @@
                 enablePaging:true,
                 aggregateTemplate: "<div ng-click=\"row.toggleExpand()\" ng-style=\"rowStyle(row)\" class=\"ngAggregate\">" +
                     "    <span class=\"ngAggregateText\">" +
-                    "<span class='ngAggregateTextLeading'>{{row.totalChildren()}} {{row.label CUSTOM_FILTERS}} </span>" +
+                    "<span class='ngAggregateTextLeading'>{{row.totalChildren()}} {{row.label}} </span>" +
                     "<span class='aggrVal'> {{ aggLevel2(row, 'Qty')}} {{aggL1(row, 'Qty', 'Qty:', 1)}}  </span>" +
                     "<span class='aggrVal'> {{ avgPriceL1(row, 'CostPrice')}}  </span>" +
                     "<span class='aggrVal'> {{aggL1(row, 'CostPrice', 'Cost:')}}  </span>" +
@@ -270,7 +271,10 @@
             }); 
         }
 
-        $scope.getList();
+        if ($cookieStore.get('_Token') == undefined)
+            window.location = '#/signin';
+        else
+            $scope.getList();
     }]);
 
 

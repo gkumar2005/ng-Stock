@@ -210,6 +210,7 @@
     <Content Include="Assets\ng\angular-resource.min.js" />
     <Content Include="Assets\ng\angular-route.min.js" />
     <Content Include="Assets\ng\angular.min.js" />
+    <Content Include="Assets\ng\ng-grid.min.js" />
     <Content Include="Assets\styles\styles.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
