@@ -9,6 +9,7 @@ using System.Web.Http.ModelBinding;
 using ng.Net1.Models;
 using System.Collections;
 using System.Data.Entity;
+
 namespace ng.Net1.Controllers
 {
     //[Authorize]
@@ -20,19 +21,58 @@ namespace ng.Net1.Controllers
         {
             db.trades.AddRange(td);
             db.SaveChanges();
+            UpdateSold();
             return Request.CreateResponse(HttpStatusCode.Accepted);
         }
         // GET api/values
         public IEnumerable<IGrouping<bool,Trade>> Get()
         {
-            SegregateTrade();
+            ArchiveTrans();
             return db.trades.Local.OrderBy(t => t.Archive).ThenBy(t=>t.Sym).GroupBy(t => t.Archive);
+        }
+
+        private void ArchiveTrans()
+        {
+            db.trades.Where(t => t.Sold == null).ToList().ForEach(a => a.Archive = false); //Recent
+
+            foreach (var buyTran in db.trades.Where(t => t.Sold < t.Qty))//split
+            {
+                buyTran.Qty = buyTran.Qty - buyTran.Sold.Value;
+                buyTran.Archive = false;
+
+                db.trades.Add(new Trade() { Sym = buyTran.Sym, Type = 0, Qty = buyTran.Sold.Value, Price= buyTran.Price, Cmsn = buyTran.Cmsn, Date= buyTran.Date, Archive = true }); //create sold(arch)
+            }
+
+            db.trades.Where(t => t.Sold == t.Qty).ToList().ForEach(a => a.Archive = true); // Archi
+        }
+        private void UpdateSold()
+        {
+            int totSellQty = 0;
+            foreach (var grpTran in db.trades.GroupBy(t => t.Sym))
+            {
+                var sellTran = grpTran.Where(t => t.Type == 1 && t.Sold == null); //Recent sell trans only
+                totSellQty = sellTran.Sum(t => t.Qty);
+                //foreach buy trans in buy sym,  if only there is a recent Sale trans
+                foreach (var buyTran in db.trades.Where(t => t.Type == 0 && t.Sym == grpTran.Key && (t.Sold == null || t.Sold < t.Qty) && totSellQty > 0).OrderBy(t => t.Date))
+                {   //Adj Sold for each buy trans till sellQty = 0
+                    if (totSellQty > 0)
+                    {
+                        if (buyTran.Sold > 0) //ReUpdate Sold 
+                            totSellQty += buyTran.Sold.Value;
+
+                        buyTran.Sold = totSellQty >= buyTran.Qty ? buyTran.Qty : totSellQty;
+                        totSellQty = totSellQty >= buyTran.Qty ? (totSellQty - buyTran.Qty) : 0;
+                       
+                    }
+                }
+                sellTran.Where(t =>t.Sold == null).ToList().ForEach(a => a.Sold = a.Qty);
+            }
+            db.SaveChanges();
         }
         private void SegregateTrade()
         {
-            var grSymType = db.trades.GroupBy(t => new { t.Sym, t.Type });
-            var grpSumQty = grSymType.Select(grps => new { grps.Key.Sym, grps.Key.Type, sumQty = grps.Sum(t => t.Qty) });
-
+            var grpSumQty = db.trades.GroupBy(t => new { t.Sym, t.Type }, (a, ts) => new { a.Sym, a.Type, sumQty = ts.Sum(tr => tr.Qty) });
+           
             foreach (var grpSym in grpSumQty.GroupBy(t => t.Sym).Where(grp => grp.Count() == 2)) //for every Sym if there is buy & sell
             {
                 var sumBuyQty = grpSym.SingleOrDefault(grps => grps.Type == 0).sumQty;
@@ -81,7 +121,7 @@ namespace ng.Net1.Controllers
         [HttpGet]
         public Cash GetCash()
         {
-            SegregateTrade();
+            ArchiveTrans();
             var cash = new Cash(); 
             var grSymType = db.trades.Local.GroupBy(t => new { t.Sym, t.Type });
             var sumBuy = grSymType.Where(g => g.Key.Type == 0).Select(grp => new

@@ -53,6 +53,8 @@ namespace ng.Net1.Models
         public DateTime Date { get; set; }
        // [Required]
         public bool Archive { get; set; }
+        
+        public int? Sold { get; set; }
     }
     public class User : IdentityUser
     {

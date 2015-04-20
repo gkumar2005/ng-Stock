@@ -33,7 +33,8 @@
 
             $http.post('/api/Values/PostAmt', params)
                 .success(function(data, status, headers, cofig) {
-                    $scope.message = data.Message;
+                    if (status == 202)
+                        $scope.msg = "Success!!";
                     $scope.showAlert = true;
                 })
                 .error(function(data, status, headers, config) {

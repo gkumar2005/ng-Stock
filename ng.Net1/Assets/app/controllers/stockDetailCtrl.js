@@ -3,7 +3,8 @@
         $scope.jsonPost = function () {
             $http.post('/api/Values/Postg', $scope.jsonRows)
             .success(function (data, status, headers, cofig) {
-                $scope.msg = data.Message;
+                if (status =202)
+                $scope.msg = "Success";
             })
                 .error(function (data, status, headers, config) {
                     $scope.msg = data.InnerException.InnerException.ExceptionMessage;
@@ -44,7 +45,7 @@
                     $scope.showAlert = true;
                 });
             $scope.gridDefs = [{ field: 'Sym', displayName: 'Symbol', width: '10%' }, { field: 'Type', displayName: 'Type', width: '3%', cellClass: 'grid-align' },
-                { field: 'Qty', displayName: 'Qty', width: '3%' }, { field: 'Price', displayName: 'Unit Price', width: '7%', cellClass: 'grid-align' }, { field: 'MktPrice', displayName: 'Mkt Price', width: '7%', cellClass: 'grid-align' },
+                { field: 'Qty', displayName: 'Qty', width: '3%' }, { field: 'Price', displayName: 'Unit Price', width: '7%', cellClass: 'grid-align' }, 
                 { field: 'CostPrice', displayName: 'Cost', width: '7%', cellClass: 'grid-align' }, { field: 'MktValue', displayName: 'Mkt Value', width: '7%', cellClass: 'grid-align' },
                 { field: 'Cmsn', displayName: 'Commission', width: '5%' }, { field: 'Date', displayName: 'Date', width: '9%' }];
             $scope.gridOptions = {
