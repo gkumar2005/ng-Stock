@@ -10,7 +10,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace ng.Net1.Models
+namespace StockMgr.Models
 {
     public class Cash
     {
@@ -56,6 +56,12 @@ namespace ng.Net1.Models
         
         public int? Sold { get; set; }
     }
+
+    public class TradeProfit
+    {
+        public string Sym { get; set; }
+        public decimal? Profit { get; set; }
+    }
     public class User : IdentityUser
     {
         //Validation on the UserName field is done by the CustomUserValidator, the CustomerUserValidator must be initialized and is done so in the AccountController contructor.
@@ -83,9 +89,9 @@ namespace ng.Net1.Models
         public bool completed { get; set; }
     }
 
-    public class DBContext : IdentityDbContext<User>
+    public class StockCtxt : IdentityDbContext<User>
     {
-        public DBContext()
+        public StockCtxt()
             : base("applicationDB")
         {
 
@@ -105,9 +111,9 @@ namespace ng.Net1.Models
             modelBuilder.Entity<Account>().ToTable("Account");
         }
 
-        public static DBContext Create()
+        public static StockCtxt Create()
         {
-            return new DBContext();
+            return new StockCtxt();
         }
 
         public DbSet<todoItem> todos { get; set; }
@@ -117,9 +123,9 @@ namespace ng.Net1.Models
     }
 
     //This function will ensure the database is created and seeded with any default data.
-    public class DBInitializer : DropCreateDatabaseIfModelChanges<DBContext>
+    public class DBInitializer : DropCreateDatabaseIfModelChanges<StockCtxt>
     {
-        protected override void Seed(DBContext context)
+        protected override void Seed(StockCtxt context)
         {
             context.Set<Account>().AddOrUpdate(new Account() { Type = 0, Amount = 100, TranDt =  DateTime.Now });
             context.SaveChanges();

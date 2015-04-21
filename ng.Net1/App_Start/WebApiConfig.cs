@@ -6,7 +6,7 @@ using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 
-namespace ng.Net1
+namespace StockMgr
 {
     public static class WebApiConfig
     {

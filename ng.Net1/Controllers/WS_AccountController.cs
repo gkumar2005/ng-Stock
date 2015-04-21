@@ -1,4 +1,4 @@
-﻿using ng.Net1.Models;
+﻿using StockMgr.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -10,11 +10,11 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace ng.Net1.Controllers
+namespace StockMgr.Controllers
 {
     public class WS_AccountController : ApiController
     {
-        private DBContext db = new DBContext();
+        private StockCtxt db = new StockCtxt();
         //HttpContext httpContext = new HttpContext(new Http
 
         public RoleManager<IdentityRole> RoleManager { get; private set; }

@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace ng.Net1.Results
+namespace StockMgr.Results
 {
     public class ChallengeResult : IHttpActionResult
     {

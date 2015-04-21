@@ -13,11 +13,11 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using ng.Net1.Models;
-using ng.Net1.Providers;
-using ng.Net1.Results;
+using StockMgr.Models;
+using StockMgr.Providers;
+using StockMgr.Results;
 
-namespace ng.Net1.Controllers
+namespace StockMgr.Controllers
 {
     [Authorize]
     [RoutePrefix("api/Account")]

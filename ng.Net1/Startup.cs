@@ -4,9 +4,9 @@ using System.Linq;
 using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartup(typeof(ng.Net1.Startup))]
+[assembly: OwinStartup(typeof(StockMgr.Startup))]
 
-namespace ng.Net1
+namespace StockMgr
 {
     public partial class Startup
     {

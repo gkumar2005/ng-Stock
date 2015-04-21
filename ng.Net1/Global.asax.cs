@@ -6,9 +6,9 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using ng.Net1.Models;
+using StockMgr.Models;
 
-namespace ng.Net1
+namespace StockMgr
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
@@ -19,7 +19,7 @@ namespace ng.Net1
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            System.Data.Entity.Database.SetInitializer<DBContext>(null); 
+            System.Data.Entity.Database.SetInitializer<StockCtxt>(null); 
         }
     }
 }

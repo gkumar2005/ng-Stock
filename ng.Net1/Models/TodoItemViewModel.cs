@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace ng.Net1.Models
+namespace StockMgr.Models
 {
     public class TodoItemViewModel
     {

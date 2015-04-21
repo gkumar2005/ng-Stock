@@ -1,7 +1,7 @@
 ﻿angular.module('stockDetail', ['ngGrid'])
     .controller('stockDetailCtrl', ['$scope', '$http', '$filter','$cookieStore', function ($scope, $http, $filter,$cookieStore) {
         $scope.jsonPost = function () {
-            $http.post('/api/Values/Postg', $scope.jsonRows)
+            $http.post('/api/Values/PostAllTrans', $scope.jsonRows)
             .success(function (data, status, headers, cofig) {
                 if (status =202)
                 $scope.msg = "Success";

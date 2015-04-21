@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ng.Net1.Models
+namespace StockMgr.Models
 {
     // Models returned by AccountController actions.
 

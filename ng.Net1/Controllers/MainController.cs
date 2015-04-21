@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace ng.Net1.Controllers
+namespace StockMgr.Controllers
 {
     public class MainController : Controller
     {

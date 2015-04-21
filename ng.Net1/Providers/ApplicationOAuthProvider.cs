@@ -9,9 +9,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using ng.Net1.Models;
+using StockMgr.Models;
 
-namespace ng.Net1.Providers
+namespace StockMgr.Providers
 {
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {

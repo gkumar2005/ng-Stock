@@ -7,10 +7,10 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
-using ng.Net1.Providers;
-using ng.Net1.Models;
+using StockMgr.Providers;
+using StockMgr.Models;
 
-namespace ng.Net1
+namespace StockMgr
 {
     public partial class Startup
     {
@@ -22,7 +22,7 @@ namespace ng.Net1
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context and user manager to use a single instance per request
-            app.CreatePerOwinContext(DBContext.Create);
+            app.CreatePerOwinContext(StockCtxt.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
 
             // Enable the application to use a cookie to store information for the signed in user

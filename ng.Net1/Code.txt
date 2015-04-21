@@ -1,0 +1,7 @@
+﻿//cash.Profit = (from s in sumSell
+            //              join b in sumBuy
+            //                  on s.Sym equals b.Sym
+            //               select new { s.Sym, Prof = s.SP - b.CP }).Sum(p => p.Prof);
+
+//cash.StockPur = tdLocalRepo.Where(g => g.Type == 0).Sum(tr => (tr.Price * tr.Qty) + tr.Cmsn);
+//cash.StockSold = tdLocalRepo.Where(g => g.Type == 1).Sum(tr => (tr.Price * tr.Qty) - tr.Cmsn);

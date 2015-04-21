@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace ng.Net1
+namespace StockMgr
 {
     public class FilterConfig
     {
