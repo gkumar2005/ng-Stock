@@ -1,7 +1,54 @@
-﻿//cash.Profit = (from s in sumSell
+﻿            //var moq = new Mock<IUnitOfWork>();
+            //var sut = new TradeBL(moq.Object);
+
+			//cash.Profit = (from s in sumSell
             //              join b in sumBuy
             //                  on s.Sym equals b.Sym
             //               select new { s.Sym, Prof = s.SP - b.CP }).Sum(p => p.Prof);
 
 //cash.StockPur = tdLocalRepo.Where(g => g.Type == 0).Sum(tr => (tr.Price * tr.Qty) + tr.Cmsn);
 //cash.StockSold = tdLocalRepo.Where(g => g.Type == 1).Sum(tr => (tr.Price * tr.Qty) - tr.Cmsn);
+
+private void SegregateTrade()
+        {
+            var grpSumQty = tdRepo.Get().GroupBy(t => new { t.Sym, t.Type }, (a, ts) => new { a.Sym, a.Type, sumQty = ts.Sum(tr => tr.Qty) });
+           
+            foreach (var grpSym in grpSumQty.GroupBy(t => t.Sym).Where(grp => grp.Count() == 2)) //for every Sym if there is buy & sell
+            {
+                var sumBuyQty = grpSym.SingleOrDefault(grps => grps.Type == 0).sumQty;
+                var sumSellQty = grpSym.SingleOrDefault(grps => grps.Type == 1).sumQty;
+                var sellQty = sumSellQty;
+                var soldQty = 0;
+                if (sumBuyQty >= sellQty) // Always true as buy >= sell
+                {
+                    foreach (var trd in tdRepo.Get(t => t.Sym == grpSym.Key && t.Type == 0).OrderBy(t => t.Date)) //Loop buy transaction 
+                    {
+                        if (trd.Qty > sellQty && sellQty > 0) // Buy:5 Sell:1 then currBuy:4  arcBuy:1 | Buy:2 Sell:2 then currBuy:0  arcBuy:2
+                        {
+                            soldQty = sellQty;
+                            trd.Qty = trd.Qty - sellQty; //update current qty and set as not sold | currBuy:4
+                            trd.Archive = false;
+                        }
+                        else //Sell:5 Buy:1 | Sell:5 Buy:5   //totSale >= current buy transaction, then it is marked as sold out (or) archBuy
+                        {
+                            sellQty -= trd.Qty;
+                            if (sellQty >= 0) //totSale >= current buy transaction, then it is marked as sold out
+                                trd.Archive = true;
+                            else
+                                trd.Archive = false;
+                        }
+                    }
+                    foreach (var trd in tdRepo.Get(t => t.Sym == grpSym.Key && t.Type == 1)) //Loop sell transaction 
+                    {
+                        if (sumBuyQty >= sumSellQty) // Buy:5 Sell:1
+                        {
+                            trd.Archive = true;
+                        }
+                    }
+                }
+
+                if (soldQty > 0) //sold out (or) archBuy
+                    tdRepo.Add(new Trade() { Sym = grpSym.Key, Type = 0, Qty = soldQty, Archive = true });
+
+            }
+        }

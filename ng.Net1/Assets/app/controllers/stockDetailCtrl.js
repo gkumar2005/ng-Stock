@@ -1,7 +1,7 @@
 ﻿angular.module('stockDetail', ['ngGrid'])
     .controller('stockDetailCtrl', ['$scope', '$http', '$filter','$cookieStore', function ($scope, $http, $filter,$cookieStore) {
         $scope.jsonPost = function () {
-            $http.post('/api/Values/PostAllTrans', $scope.jsonRows)
+            $http.post('/api/Stock/PostAllTrans', $scope.jsonRows)
             .success(function (data, status, headers, cofig) {
                 if (status =202)
                 $scope.msg = "Success";
@@ -11,7 +11,7 @@
                 });
         };
         $scope.amtHand = function() {
-            $http.get('/api/Values/GetCash')
+            $http.get('/api/Stock/GetCash')
                 .success(function(data, status, headers, cofig) {
                     $scope.StockPur = data.StockPur;
                     $scope.StockSold = data.StockSold;
@@ -24,7 +24,7 @@
         };
         
         $scope.getList = function() {
-            $http.get('/api/Values/Get')
+            $http.get('/api/Stock/Get')
                 .success(function(data, status, headers, cofig) {
                     var arrSym = [];
                     angular.forEach(data, function(grp) {

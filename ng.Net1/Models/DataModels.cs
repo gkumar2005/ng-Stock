@@ -12,7 +12,7 @@ using System.Web;
 
 namespace StockMgr.Models
 {
-    public class Cash
+    public class AccountStatus
     {
         public Decimal? StockPur { get; set; }
         public Decimal? StockSold { get; set; }
@@ -27,7 +27,7 @@ namespace StockMgr.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public int Type { get; set; }
+        public AccountTrans Type { get; set; }
         [Required]
         [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime TranDt { get; set; }
@@ -42,7 +42,7 @@ namespace StockMgr.Models
         [StringLength(5)] [Required]
         public string Sym{get;set;}
         [Required]
-        public int Type{get;set;}
+        public Transaction Type { get; set; }
         [Required]
         public int Qty{get;set;}
         [Required] [DisplayFormat(DataFormatString = "{0:c}")]
@@ -61,6 +61,16 @@ namespace StockMgr.Models
     {
         public string Sym { get; set; }
         public decimal? Profit { get; set; }
+    }
+
+    public enum Transaction
+    {
+        Buy, Sell
+    }
+
+    public enum AccountTrans
+    {
+        Withdraw, Deposit
     }
     public class User : IdentityUser
     {

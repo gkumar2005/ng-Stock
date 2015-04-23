@@ -12,10 +12,7 @@ namespace StockMgr.DAL
         {
         }
 
-        public void AddRange(IList<Trade> td)
-        {
-            context.trades.AddRange(td);
-        }
+        
 
  
     }

@@ -8,7 +8,7 @@ using StockMgr.Models;
 
 namespace StockMgr.DAL
 {
-    public class GenericRepository<TEntity> where TEntity : class
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         internal StockCtxt context;
         internal DbSet<TEntity> dbSet;
@@ -61,7 +61,10 @@ namespace StockMgr.DAL
         {
             dbSet.Add(entity);
         }
-
+        public virtual void AddRange(IList<TEntity> entity)
+        {
+            dbSet.AddRange(entity);
+        }
         public virtual void Delete(object id)
         {
             TEntity entityToDelete = dbSet.Find(id);

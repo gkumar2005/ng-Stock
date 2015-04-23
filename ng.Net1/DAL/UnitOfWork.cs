@@ -3,13 +3,18 @@ using StockMgr.Models;
 
 namespace StockMgr.DAL
 {
-    public class UnitOfWork : IDisposable
+    public class UnitOfWork : IDisposable, IUnitOfWork
     {
+        public UnitOfWork(IGenericRepository<Account> acc, IGenericRepository<Trade> tr)
+        {
+            accountRepository = acc;
+            tradeRepository = tr;
+        }
         private StockCtxt context = new StockCtxt();
-        private GenericRepository<Account> accountRepository;
-        private TradeRepository tradeRepository;
+        private IGenericRepository<Account> accountRepository;
+        private IGenericRepository<Trade> tradeRepository;
 
-        public GenericRepository<Account> AccountRepository
+        public IGenericRepository<Account> AccountRepository
         {
             get
             {
@@ -21,15 +26,15 @@ namespace StockMgr.DAL
                 return accountRepository;
             }
         }
-        
-        public TradeRepository TradeRepository
+
+        public IGenericRepository<Trade> TradeRepository
         {
             get
             {
 
                 if (this.tradeRepository == null)
                 {
-                    this.tradeRepository = new TradeRepository(context);
+                    this.tradeRepository = new GenericRepository<Trade>(context);
                 }
                 return tradeRepository;
             }

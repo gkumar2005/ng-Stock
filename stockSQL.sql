@@ -30,3 +30,7 @@ select 111761.75-61.75-6405.66-8500.00-6000.00 -- Dep in E*trade
 select 32538.42+489.50 -- stockinhand without cmsn
 select sym, type,qty, price, case when type=0 then price*qty+cmsn else price*qty-cmsn end,date,cmsn from Trades where Cmsn like '2.5%'
  and Archive=0
+
+ select first_value(case when sold=null then 1 when qty>sold then 2 else 3 end) over(partition by sym, qty, sold order by sym, qty, sold), sym, qty, sold from trades
+ group by sym, qty, sold having qty=sold or qty>sold
+	

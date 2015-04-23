@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stock Porfolio", "ng.Net1\Stock Porfolio.csproj", "{0AB0A3F4-F35F-4F99-8F53-E1DDD4A2227F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{2CF49ED3-1A4A-4324-AC67-B1E2E56D8248}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +17,10 @@ Global
 		{0AB0A3F4-F35F-4F99-8F53-E1DDD4A2227F}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{0AB0A3F4-F35F-4F99-8F53-E1DDD4A2227F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AB0A3F4-F35F-4F99-8F53-E1DDD4A2227F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CF49ED3-1A4A-4324-AC67-B1E2E56D8248}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CF49ED3-1A4A-4324-AC67-B1E2E56D8248}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CF49ED3-1A4A-4324-AC67-B1E2E56D8248}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CF49ED3-1A4A-4324-AC67-B1E2E56D8248}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

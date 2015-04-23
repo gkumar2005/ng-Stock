@@ -5,6 +5,11 @@ using System.Net.Http;
 using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
+using Microsoft.Practices.Unity;
+using System.Web.Http.Dependencies;
+using StockMgr.BLL;
+using StockMgr.DAL;
+using StockMgr.Models;
 
 namespace StockMgr
 {
@@ -29,6 +34,63 @@ namespace StockMgr
                 routeTemplate: "api/{controller}/{action}/{id}", //routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            
+
+            var container = new UnityContainer()
+                .RegisterType<ITradeBL, TradeBL>()
+                .RegisterType<IUnitOfWork, UnitOfWork>()
+                .RegisterType(typeof(IGenericRepository<>), typeof(GenericRepository<>))
+                .RegisterInstance<Account>(new Account())
+                .RegisterInstance<Trade>(new Trade());
+            config.DependencyResolver = new UnityResolver(container);
+        }
+    }
+    public class UnityResolver : IDependencyResolver
+    {
+        protected IUnityContainer container;
+
+        public UnityResolver(IUnityContainer container)
+        {
+            if (container == null)
+            {
+                throw new ArgumentNullException("container");
+            }
+            this.container = container;
+        }
+
+        public object GetService(Type serviceType)
+        {
+            try
+            {
+                return container.Resolve(serviceType);
+            }
+            catch (ResolutionFailedException)
+            {
+                return null;
+            }
+        }
+
+        public IEnumerable<object> GetServices(Type serviceType)
+        {
+            try
+            {
+                return container.ResolveAll(serviceType);
+            }
+            catch (ResolutionFailedException)
+            {
+                return new List<object>();
+            }
+        }
+
+        public IDependencyScope BeginScope()
+        {
+            var child = container.CreateChildContainer();
+            return new UnityResolver(child);
+        }
+
+        public void Dispose()
+        {
+            container.Dispose();
         }
     }
 }
