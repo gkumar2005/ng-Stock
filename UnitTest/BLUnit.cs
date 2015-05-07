@@ -47,19 +47,11 @@ namespace UnitTest
         [TestMethod]
         public void AccountValue()
         {
-            Expression<Func<Account, bool>> filter = null;
-            Func<IQueryable<Account>, IOrderedQueryable<Account>> orderBy = null;
-            bool local = false; //Acc has no local
+            //Expression<Func<Account, bool>> filter = null;
+            //Func<IQueryable<Account>, IOrderedQueryable<Account>> orderBy = null;
+            //bool local = false; //Acc has no local
             
-            Expression<Func<Trade, bool>> filter1 = null;
-            Func<IQueryable<Trade>, IOrderedQueryable<Trade>> orderBy1 = null;
-            string includeProperties = "";
-            bool local1 = true;
-
-            Expression<Func<Trade, bool>> filter2 = g=> g.Type == Transaction.Buy;
-            Func<IQueryable<Trade>, IOrderedQueryable<Trade>> orderBy2 = null;
-            bool local2 = false;
-
+            //Expression<Func<Trade, bool>> receivedCriteria = null;
             CreateTradeBL(out fix, out moqUOW, out sut);
 
             var accounts = (new List<Account>
@@ -93,10 +85,11 @@ namespace UnitTest
             }.AsEnumerable());
             //sut.AddAccountTransaction(fix.Create<Account>());
 
-            moqUOW.Setup(r => r.AccountRepository.Get(filter, orderBy, includeProperties, local)).Returns(accounts);
-            moqUOW.Setup(r => r.TradeRepository.Get(filter1, orderBy1, includeProperties, local1)).Returns(trades);
+            moqUOW.Setup(r => r.AccountRepository.Get(It.IsAny<Expression<Func<Account, bool>>>(), It.IsAny<Func<IQueryable<Account>, IOrderedQueryable<Account>>>(), It.IsAny<string>(), It.IsAny<bool>())).Returns(accounts);
+            //moqUOW.Setup(r => r.TradeRepository.Get(It.Is<Expression<Func<Trade, bool>>>(t => t.Compile().Invoke(new Trade { Type=Transaction.Buy })), It.IsAny<Func<IQueryable<Trade>, IOrderedQueryable<Trade>>>(), It.IsAny<string>(), It.IsAny<bool>())).Returns(trades);
 
-            moqUOW.Setup(r => r.TradeRepository.Get(filter2, orderBy2, includeProperties, local2)).Returns(trades);
+            moqUOW.Setup(r => r.TradeRepository.Get(It.IsAny<Expression<Func<Trade, bool>>>(), It.IsAny<Func<IQueryable<Trade>, IOrderedQueryable<Trade>>>(), It.IsAny<string>(), It.IsAny<bool>())).Returns(trades);
+                //.Callback<Expression<Func<Trade, bool>>>(o=>receivedCriteria = o);
             var accStatus = sut.GetAccountStatus();
 
             Assert.IsTrue(accStatus.InHand == 165);
